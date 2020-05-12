@@ -1,7 +1,8 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse, reverse_lazy
 from django.shortcuts import render
-from django.views import generic
+from django.views.generic import ListView, DetailView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.http import HttpResponse
 
 from recipes.models import Recipe
@@ -11,7 +12,7 @@ from recipes.models import Recipe
 def index(request):
     return HttpResponse("Hello, world! This is the recipes app.")
 
-class RecipeListView(generic.ListView):
+class RecipeListView(ListView):
     model = Recipe
 
     template_name = 'recipes/index.html' #Specify our own template
@@ -20,16 +21,17 @@ class RecipeListView(generic.ListView):
 
     #queryset = Recipe.objects.filter(??????)   <- gets a filtered queryset
 
-class RecipeDetailView(generic.DetailView):
+class RecipeDetailView(DetailView):
     model = Recipe
 
     #by default the template variable is anmed 'object' or '<the_model_name>'
 
     template_name = 'recipes/detail.html'
 
-#class RecipeCreateView(generic.CreateView):
- #   model = Recipe
-  #  fields = ['name','desc','ingredients']
+class RecipeCreateView(CreateView):
+    model = Recipe
+    fields = ['name','desc','ingredients']
+    template_name_suffix = '_add' #specifies that we should look for the template '<model_name>_add'
 
    # def form_valid(self, form):
     #    form.instance.user = self.request.user
