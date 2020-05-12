@@ -14,6 +14,7 @@
     {% endfor %}
 </ul>
 
-<a href="{% url 'recipe-edit' recipe.pk%}"><strong>EDIT</strong></a>
+<p><a href="{% url 'recipe-edit' recipe.pk%}"><strong>EDIT</strong></a></p>
+<p><a href="{% url 'recipe-delete' recipe.pk%}"><strong>DELETE</strong></a></p>
 {% endblock %}
 

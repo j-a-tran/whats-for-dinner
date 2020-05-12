@@ -38,6 +38,7 @@ class RecipeUpdateView(UpdateView):
     fields = ['name','desc','ingredients']
     template_name_suffix = '_edit'
 
-#class RecipeDeleteView(generic.DeleteView):
- #   model = Recipe
-  #  success_url = reverse_lazy('index')
+class RecipeDeleteView(DeleteView):
+    model = Recipe
+    success_url = reverse_lazy('index')
+    template_name_suffix = '_delete'
