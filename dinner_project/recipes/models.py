@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse, reverse_lazy
 #from django.contrib.auth.models import User
 
 # Create your models here.
@@ -21,6 +22,9 @@ class Recipe(models.Model):
 
     def __str__(self):
         return self.name
+    
+    def get_absolute_url(self):
+        return reverse('recipe-detail', kwargs={'pk':self.pk})
 
     #def select_random(self):
         #TO DO: method for selecting a random entry from the user's list of recipes
