@@ -33,17 +33,10 @@ class RecipeCreateView(CreateView):
     fields = ['name','desc','ingredients']
     template_name_suffix = '_add' #specifies that we should look for the template '<model_name>_add'
 
-   # def form_valid(self, form):
-    #    form.instance.user = self.request.user
-     #   return super().form_valid(form)
-
-#class RecipeUpdateView(generic.UpdateView):
- #   model = Recipe
-  #  fields = ['name','desc','ingredients']
-
-   # def form_valid(self, form):
-    #    form.instance.user = self.request.user
-     #   return super().form_valid(form)
+class RecipeUpdateView(UpdateView):
+    model = Recipe
+    fields = ['name','desc','ingredients']
+    template_name_suffix = '_edit'
 
 #class RecipeDeleteView(generic.DeleteView):
  #   model = Recipe

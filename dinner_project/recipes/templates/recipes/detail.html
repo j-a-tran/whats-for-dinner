@@ -13,4 +13,7 @@
         <li>{{  ingredient.name }}</li>
     {% endfor %}
 </ul>
+
+<a href="{% url 'recipe-edit' recipe.pk%}"><strong>EDIT</strong></a>
 {% endblock %}
+
