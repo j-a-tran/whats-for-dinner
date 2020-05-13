@@ -4,22 +4,30 @@
 
 <h1>Results</h1>
 
-    {% if object_list %}
+{% if object_list %}
+<div class="row">
+    {% for recipe in object_list %}
 
-    <ul>
-        {% for recipe in object_list %}
+        <div class="col-sm-6 my-2">
+        <div class="card h-100">
+            <div class="card-body">
+                <a href="{{ recipe.get_absolute_url }}"><h5 class="card-title">{{ recipe.name }}</h5></a>
 
-            <li>
-                <a href="{{ recipe.get_absolute_url }}">{{ recipe.name }}</a>
-            </li>
+                {% for ingredient in recipe.ingredients.all %}
+                    <span class="badge badge-light">{{ ingredient.name }}</span>
+                {% endfor %}
+                
+            </div>  
+        </div>
+        </div>
 
-        {% endfor %}
-    </ul>
+    {% endfor %}
+</div>
 
-    {% else %}
+{% else %}
 
     <p>No matches!</p>
 
-    {% endif %}
+{% endif %}
 
 {% endblock %}
