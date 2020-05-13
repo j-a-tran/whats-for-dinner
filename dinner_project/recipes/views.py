@@ -28,10 +28,12 @@ class RecipeSearchResults(ListView):
     template_name = 'recipes/results.html'
 
     def get_queryset(self):
-        query = self.request.GET.get('ingredients')
-        q = Ingredient.objects.get(pk=query)
+        query = self.request.GET.getlist('ingredients')
+        
+        #q = Ingredient.objects.get(pk=query)
+        #object_list = q.recipe_set.all()
 
-        object_list = q.recipe_set.all()
+        object_list = Recipe.objects.filter(ingredients__in=query).distinct()
 
         return object_list
 
