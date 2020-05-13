@@ -1,13 +1,20 @@
 {% extends "base.html" %}
 
+{% load crispy_forms_tags %}
+
 {% block content %}
 
-<form method="post">
-    {% csrf_token %}
+<h1>Add New Recipe</h1>
 
-    {{ form }}
+<div class="row">
+    <div class="col">
+        <form method="post">
+            {% csrf_token %}
 
-    <input type="submit" value="Save">
-</form>
+            {{ form|crispy }}
+            <input class="btn btn-primary my-4" type="submit" value="Save">
+        </form>
+    </div>
+</div>
 
 {% endblock %}

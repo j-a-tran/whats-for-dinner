@@ -1,13 +1,22 @@
 {% extends "base.html" %}
 
+{% load crispy_forms_tags %}
+
 {% block content %}
     <h1>Recipes</h1>
 
-    <form action="{% url 'recipe-results' %}" method="GET">
-        {{ form }}
-        <input type="submit" name="filter" value="Filter">
-        <input type="submit" name="randomize" value="Pick Random">
-    </form>
+    <div class="row">
+        <div class="col">
+            <form class="form-inline" action="{% url 'recipe-results' %}" method="GET">
+                <div class="form-group">
+                    {{ form|crispy }}
+                </div>
+
+                <input class="btn btn-primary mx-2" type="submit" name="filter" value="Filter">
+                <input class="btn btn-primary mx-2" type="submit" name="randomize" value="Pick Random">
+            </form>
+        </div>
+    </div>
 
     {% if object_list %}
     <div class="row">
@@ -35,8 +44,6 @@
 
     {% endif %}
 
-    <p>
-        <a href="{% url 'recipe-add' %}"><strong>ADD NEW</strong></a>
-    </p>
+    <a class="btn btn-info" href="{% url 'recipe-add' %}">+ New Recipe</a>
 
 {% endblock %}

@@ -2,19 +2,25 @@
 
 {% block content %}
 
-<h1>Recipe: {{ recipe.name }}</h1>
+<h1>{{ recipe.name }}</h1>
 
-<p>Instructions: </p>
-<p>{{ recipe.desc }}</p>
+<h4>Instructions: </h4>
 
-<p>Ingredients:</p>
+{% if recipe.desc %}
+    <p>{{ recipe.desc }}</p>
+{% else %}
+    <small class="text-muted">No description entered.</small>
+{% endif %}
+
+<h4>Ingredients:</h4>
+
 <ul>
     {% for ingredient in recipe.ingredients.all %}
         <li>{{  ingredient.name }}</li>
     {% endfor %}
 </ul>
 
-<p><a href="{% url 'recipe-edit' recipe.pk%}"><strong>EDIT</strong></a></p>
-<p><a href="{% url 'recipe-delete' recipe.pk%}"><strong>DELETE</strong></a></p>
+<a class="btn btn-primary" href="{% url 'recipe-edit' recipe.pk%}">EDIT</a>
+<a class="btn btn-primary" href="{% url 'recipe-delete' recipe.pk%}">DELETE</a>
 {% endblock %}
 
