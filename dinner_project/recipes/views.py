@@ -5,6 +5,7 @@ from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.http import HttpResponse
 
+from .forms import SearchForm
 from recipes.models import Recipe
 
 # Create your views here.
@@ -14,8 +15,12 @@ def index(request):
 
 class RecipeListView(ListView):
     model = Recipe
-
     template_name = 'recipes/index.html' #Specify our own template
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = SearchForm()
+        return context
 
     #by default the template variable is named 'object_list' or '<model_name>_list'
 
