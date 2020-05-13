@@ -6,12 +6,9 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.http import HttpResponse
 
 from .forms import SearchForm
-from recipes.models import Recipe
+from recipes.models import Recipe, Ingredient
 
 # Create your views here.
-
-def index(request):
-    return HttpResponse("Hello, world! This is the recipes app.")
 
 class RecipeListView(ListView):
     model = Recipe
@@ -25,6 +22,18 @@ class RecipeListView(ListView):
     #by default the template variable is named 'object_list' or '<model_name>_list'
 
     #queryset = Recipe.objects.filter(??????)   <- gets a filtered queryset
+
+class RecipeSearchResults(ListView):
+    model = Recipe
+    template_name = 'recipes/results.html'
+
+    def get_queryset(self):
+        query = self.request.GET.get('ingredients')
+        q = Ingredient.objects.get(pk=query)
+
+        object_list = q.recipe_set.all()
+
+        return object_list
 
 class RecipeDetailView(DetailView):
     model = Recipe
