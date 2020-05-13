@@ -5,6 +5,8 @@ from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.http import HttpResponse
 
+import random
+
 from .forms import SearchForm
 from recipes.models import Recipe, Ingredient
 
@@ -29,13 +31,17 @@ class RecipeSearchResults(ListView):
 
     def get_queryset(self):
         query = self.request.GET.getlist('ingredients')
+        randomize_flag = self.request.GET.get('randomize')
         
-        #q = Ingredient.objects.get(pk=query)
-        #object_list = q.recipe_set.all()
-
-        object_list = Recipe.objects.filter(ingredients__in=query).distinct()
+        if randomize_flag == "Pick Random":
+            object_list = random.sample(list(Recipe.objects.filter(ingredients__in=query).distinct()),1)
+        else:
+            object_list = Recipe.objects.filter(ingredients__in=query).distinct()
 
         return object_list
+
+        #q = Ingredient.objects.get(pk=query)
+        #object_list = q.recipe_set.all()
 
 class RecipeDetailView(DetailView):
     model = Recipe

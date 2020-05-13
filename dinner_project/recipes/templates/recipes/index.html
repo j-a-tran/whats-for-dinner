@@ -3,7 +3,8 @@
 {% block content %}
     <form action="{% url 'recipe-results' %}" method="GET">
         {{ form }}
-        <input type="submit" value="Filter">
+        <input type="submit" name="filter" value="Filter">
+        <input type="submit" name="randomize" value="Pick Random">
     </form>
 
     <h1>Recipes</h1>
