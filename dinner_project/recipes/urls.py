@@ -9,6 +9,6 @@ urlpatterns = [
     path('recipe/<int:pk>/edit', views.RecipeUpdateView.as_view(), name='recipe-edit'),
     path('recipe/<int:pk>/delete', views.RecipeDeleteView.as_view(), name='recipe-delete'),
     path('recipe/search', views.RecipeSearchResults.as_view(), name='recipe-results'),
-    path('api/list', views.recipes_list),
-    path('api/recipe/<int:pk>', views.recipes_detail),
+    path('api/recipes/', views.recipes_list),
+    path('api/recipes/<int:pk>', views.recipes_detail),
 ]
