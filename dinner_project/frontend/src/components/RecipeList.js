@@ -1,55 +1,49 @@
 import React, { Component } from 'react';
-import NewRecipeModal from './NewRecipeModal';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
+import GridList from '@material-ui/core/Grid';
+import GridListTile from '@material-ui/core/GridListTile';
+import Chip from '@material-ui/core/Chip';
 
 class RecipeList extends Component {
-    render() {
-      const recipes = this.props.recipes;
-      return (
-        <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Name</TableCell>
-              <TableCell>Description</TableCell>
-              <TableCell>Ingredients</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {!recipes || recipes.length <= 0 ? (
-              <TableRow>
-                <TableCell>No recipes added.</TableCell>
-              </TableRow>
-            ) : (
-              recipes.map(recipe => (
-                <TableRow key={recipe.pk}>
-                    <TableCell>{recipe.name}</TableCell>
-                    <TableCell>{recipe.desc}</TableCell>
-                    <TableCell>{recipe.ingredients}</TableCell>
+  render() {
+    const recipes = this.props.recipes;
 
-                  {/*
-                  <TableCell>
-                    <NewRecipeModal
-                      create={false}
-                      recipe={recipe}
-                      resetState={this.props.resetState}
-                    />
-                  </TableCell>
-                  */}
-                </TableRow>
-              ))
-            )}
-          </TableBody>
-        </Table>
-        </TableContainer>
-      );
-    }
+    return (
+      <GridList cellHeight={180} cols={3}>
+          {!recipes || recipes.length <= 0 ? (
+              <Typography>No recipes added.</Typography>
+          ) : (
+            recipes.map(recipe => (
+              <GridListTile component="Card" cols={1} spacing={10}>
+                <Card key={recipe.pk} variant="outlined">
+                  <CardActionArea>
+                    <CardContent>
+                      <Typography gutterBottom variant="h5" component="h2">{recipe.name}</Typography>
+                      <Typography variant="body2" color="textSecondary" component="p">{recipe.desc}</Typography>
+                      {recipe.ingredients.map(ingredient => (
+                        <Chip label={ingredient.name} size="small" />
+                      ))}
+
+                    </CardContent>
+                  </CardActionArea>
+                  <CardActions>
+                    <Button size="small" color="primary">
+                      Details
+                    </Button>
+                  </CardActions>
+                </Card>
+              </GridListTile>
+            ))
+          )}
+      </GridList>
+    );
   }
+
+}
   
   export default RecipeList;
