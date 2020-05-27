@@ -8,6 +8,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 export default function ModalWindow(props) {
 
+    //Declares an 'open' variable, set to FALSE, where setOpen is the method that updates it. useState declares a state variable
     const [open, setOpen] = React.useState(false);
 
     const handleClickOpen = () => {
@@ -20,9 +21,9 @@ export default function ModalWindow(props) {
 
     return (
       <div>
-        <Button onClick={handleClickOpen} color="primary">Open Modal</Button>
+        <Button onClick={handleClickOpen}>Open Modal</Button>
         <Dialog open={open} onClose={handleClose}>
-          <DialogTitle id="dialog-title">Modal Title</DialogTitle>
+          <DialogTitle id="dialog-title">{props.recipeName}</DialogTitle>
           <DialogContent>
             <DialogContentText>
                 I am a modal.

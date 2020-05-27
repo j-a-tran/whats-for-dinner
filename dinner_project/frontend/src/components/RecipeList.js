@@ -34,7 +34,7 @@ class RecipeList extends Component {
                     </CardContent>
                   </CardActionArea>
                   <CardActions>
-                    <ModalWindow />
+                    <ModalWindow recipeName={recipe.name}/>
                   </CardActions>
                 </Card>
               </GridListTile>
