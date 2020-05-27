@@ -7,7 +7,6 @@ import axios from 'axios';
 
 import { API_URL } from '../constants/index';
 import IngredientsSearch from './IngredientsSearch';
-import ModalWindow from './ModalWindow';
 
 class Page extends Component {
     state = {
@@ -45,7 +44,6 @@ class Page extends Component {
                     <RecipeList recipes={this.state.recipes} resetState={this.resetState} />    
                 </Grid>
             </Grid>
-            <ModalWindow />
 
         </div>
 

@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import GridList from '@material-ui/core/Grid';
 import GridListTile from '@material-ui/core/GridListTile';
 import Chip from '@material-ui/core/Chip';
+import ModalWindow from './ModalWindow';
 
 class RecipeList extends Component {
 
@@ -33,9 +34,7 @@ class RecipeList extends Component {
                     </CardContent>
                   </CardActionArea>
                   <CardActions>
-                    <Button size="small" color="primary">
-                      Details
-                    </Button>
+                    <ModalWindow />
                   </CardActions>
                 </Card>
               </GridListTile>

@@ -20,7 +20,7 @@ export default function ModalWindow(props) {
 
     return (
       <div>
-        <Button onClick={handleClickOpen}>Open Modal</Button>
+        <Button onClick={handleClickOpen} color="primary">Open Modal</Button>
         <Dialog open={open} onClose={handleClose}>
           <DialogTitle id="dialog-title">Modal Title</DialogTitle>
           <DialogContent>
