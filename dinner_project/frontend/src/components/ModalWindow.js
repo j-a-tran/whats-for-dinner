@@ -23,7 +23,7 @@ export default function ModalWindow(props) {
       <div>
         <Button onClick={handleClickOpen}>Open Modal</Button>
         <Dialog open={open} onClose={handleClose}>
-          <DialogTitle id="dialog-title">{props.recipeName}</DialogTitle>
+          <DialogTitle id="dialog-title">{props.recipe.name}</DialogTitle>
           <DialogContent>
             <DialogContentText>
                 I am a modal.
