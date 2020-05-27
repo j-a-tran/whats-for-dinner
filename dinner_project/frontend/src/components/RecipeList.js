@@ -10,6 +10,7 @@ import GridListTile from '@material-ui/core/GridListTile';
 import Chip from '@material-ui/core/Chip';
 
 class RecipeList extends Component {
+
   render() {
     const recipes = this.props.recipes;
 
