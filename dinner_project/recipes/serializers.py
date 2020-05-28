@@ -4,7 +4,7 @@ from .models import Recipe, Ingredient
 class IngredientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ingredient
-        fields = ('id', 'name')
+        fields = ['name']
 
 class RecipeSerializer(serializers.ModelSerializer):
 
@@ -12,7 +12,7 @@ class RecipeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Recipe
-        fields = ('pk', 'name', 'desc', 'ingredients')
+        fields = ['pk', 'name', 'desc', 'ingredients']
         ##depth=1
     
     def create(self, validated_data):
