@@ -33,8 +33,16 @@ class RecipeForm extends React.Component {
     };
 
     onIngredientsChange = (event, value) => {
+
+        const formattedIngredients = value.map( item => {
+            const object = {};
+            object.name = item;
+
+            return object;
+        })
+
         this.setState({ 
-            ingredients: value
+            ingredients: formattedIngredients
         });
 
         console.log(value);
@@ -62,8 +70,7 @@ class RecipeForm extends React.Component {
                 <Autocomplete 
                     multiple
                     id="ingredients"
-                    options={this.props.ingredients}
-                    getOptionLabel={(option) => option.name}
+                    options={this.props.ingredients.map((option) => option.name)}
                     renderInput={(params) => (
                         <TextField
                         {...params}
@@ -73,10 +80,11 @@ class RecipeForm extends React.Component {
                         />
                     )}
                     onChange={this.onIngredientsChange}
+                    freeSolo
+                    selectOnFocus
+                    clearOnBlur
+                    handleHomeEndKeys
                 />
-
-
-
 
                 <Button type="submit">Save</Button>
             </form>
