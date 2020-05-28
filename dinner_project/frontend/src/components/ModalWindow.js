@@ -5,6 +5,8 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import SimpleForm from './SimpleForm';
+import RecipeForm from './RecipeForm';
 
 export default function ModalWindow(props) {
 
@@ -26,8 +28,9 @@ export default function ModalWindow(props) {
           <DialogTitle id="dialog-title">{props.recipe.name}</DialogTitle>
           <DialogContent>
             <DialogContentText>
-                I am a modal.
+                I'm text
             </DialogContentText>
+            <RecipeForm ingredients={props.ingredients}/>
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Close</Button>
