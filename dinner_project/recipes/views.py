@@ -87,7 +87,7 @@ def recipes_list(request):
 @api_view(['PUT', 'DELETE'])
 def recipes_detail(request, pk):
     try:
-        recipe = Recipe.objects.gets(pk=pk)
+        recipe = Recipe.objects.get(pk=pk)
     except Recipe.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
