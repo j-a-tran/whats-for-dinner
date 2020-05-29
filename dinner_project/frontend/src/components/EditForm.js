@@ -12,7 +12,7 @@ export default function DeleteForm(props) {
     const recipe = props.recipe;
 
     const [isOpen, setOpen] = React.useState(false);
-    const [recipeIngredients, setRecipeIngredients] = React.useState([recipe.ingredients]);
+    const [recipeIngredients, setRecipeIngredients] = React.useState(recipe.ingredients);
     const [recipeData, setRecipeData] = React.useState({
         pk: recipe.pk,
         name: recipe.name,

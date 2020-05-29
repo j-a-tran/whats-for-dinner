@@ -1,3 +1,4 @@
 dinner_project/db.sqlite3
 dinner_project/node_modules
 dinner_project/frontend/node_modules
+dinner_project/recipes/__pycache__/
