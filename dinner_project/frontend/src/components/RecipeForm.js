@@ -81,14 +81,17 @@ class RecipeForm extends React.Component {
 
     render () {
 
-        const actionButton = <Button type="submit" form="recipeForm">Save</Button>;
+        const actions = [
+            <Button type="submit" form="recipeForm">Save</Button>,
+            <Button onClick={ () => this.handleClose() }>Close</Button>
+        ];
 
         return (
             <React.Fragment>
                 <Fab color='primary' onClick={ () => this.handleOpen() }>
                     <AddIcon />
                 </Fab>
-                <ModalWindow isOpen={this.state.isOpen} modalTitle="Create Recipe" actionButton={actionButton}>
+                <ModalWindow isOpen={this.state.isOpen} handleClose={this.handleClose} modalTitle="Create Recipe" actions={actions}>
                     <form noValidate autoComplete='off' onSubmit={this.createRecipe} id="recipeForm">
                         <TextField required name="name" label="Name" onChange={this.onChange} />
                         <TextField name="desc" label="Description" onChange={this.onChange} />
