@@ -6,6 +6,7 @@ import IngredientsSearch from './IngredientsSearch';
 import axios from 'axios';
 
 import { API_URL } from '../constants/index';
+import RecipeForm from './RecipeForm';
 
 
 class Page extends Component {
@@ -35,15 +36,17 @@ class Page extends Component {
     render () {
         return (
         <div>
+
+
             <Grid container spacing={3} justify='center'>
                 <Grid item xs={9}>
                     <IngredientsSearch ingredients={this.state.ingredients} resetState={this.resetState} /> 
                 </Grid>
+                <RecipeForm ingredients={this.state.ingredients} />
                 <Grid item xs={9}>
                     <RecipeList recipes={this.state.recipes} resetState={this.resetState} ingredients={this.state.ingredients}/>    
                 </Grid>
             </Grid>
-
         </div>
 
         );

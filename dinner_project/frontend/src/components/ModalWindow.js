@@ -9,34 +9,19 @@ import RecipeForm from './RecipeForm';
 
 export default function ModalWindow(props) {
 
-    //Declares an 'open' variable, set to FALSE, where setOpen is the method that updates it. useState declares a state variable
-    const [open, setOpen] = React.useState(false);
-
-    const handleClickOpen = () => {
-      setOpen(true);
-    };
-
-    const handleClose = () =>  {
-      setOpen(false);  
-    };
-
     return (
-      <div>
-        <Button onClick={handleClickOpen}>Open Modal</Button>
-        <Dialog open={open} onClose={handleClose}>
-          <DialogTitle id="dialog-title">{props.recipe.name}</DialogTitle>
+      <React.Fragment>
+        <Dialog open={props.isOpen}>
+          <DialogTitle id="dialog-title">{props.modalTitle}</DialogTitle>
           <DialogContent>
-            <DialogContentText>
-                I'm text
-            </DialogContentText>
-            <RecipeForm ingredients={props.ingredients}/>
+            {props.children}
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose}>Close</Button>
-            <Button onClick={handleClose}>Also Close</Button>
+            {props.actionButton}
+            <Button onClick={ () => props.handleClose}>Close</Button>
           </DialogActions>
         </Dialog>
-      </div>
+      </React.Fragment>
 
     );
 

@@ -16,7 +16,7 @@ class RecipeList extends Component {
     const ingredients = this.props.ingredients;
 
     return (
-      <GridList cellHeight={180} cols={3}>
+      <GridList cols={3}>
           {!recipes || recipes.length <= 0 ? (
               <Typography>No recipes added.</Typography>
           ) : (
