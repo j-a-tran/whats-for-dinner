@@ -3,6 +3,7 @@ import Button from '@material-ui/core/Button';
 import ModalWindow from './ModalWindow';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import Grid from '@material-ui/core/Grid';
 
 import axios from 'axios';
 import { API_URL } from '../constants/index';
@@ -72,28 +73,37 @@ export default function DeleteForm(props) {
             </Button>
             <ModalWindow isOpen={isOpen} handleClose={handleClose} modalTitle={'Edit "' + recipe.name + '"'} actions={actions}>
                 <form noValidate autoComplete='off' onSubmit={editRecipe} id="recipeForm">
-                    <TextField required name="name" label="Name" defaultValue={recipe.name} onChange={onChange} />
-                    <TextField name="desc" label="Description" defaultValue={recipe.desc} onChange={onChange} />
+                    <Grid container spacing={2}>
+                            <Grid item xs={12}>
+                                <TextField required fullWidth name="name" label="Name" defaultValue={recipe.name} onChange={onChange} />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField fullWidth name="desc" label="Description" multiline rows={4} defaultValue={recipe.desc} onChange={onChange} />
+                            </Grid>
+                    
+                            <Grid item xs={12}>
+                                <Autocomplete 
+                                    multiple
+                                    id="ingredients"
+                                    options={props.ingredients.map((option) => option.name)}
+                                    defaultValue={recipe.ingredients.map((option) => option.name)}
+                                    renderInput={(params) => (
+                                        <TextField
+                                        {...params}
+                                        variant="standard"
+                                        label="Ingredients"
+                                        placeholder="Select ingredients"
+                                        />
+                                    )}
+                                    onChange={onIngredientsChange}
+                                    freeSolo
+                                    selectOnFocus
+                                    clearOnBlur
+                                    handleHomeEndKeys
+                                />
+                            </Grid>
+                    </Grid> 
 
-                    <Autocomplete 
-                        multiple
-                        id="ingredients"
-                        options={props.ingredients.map((option) => option.name)}
-                        defaultValue={recipe.ingredients.map((option) => option.name)}
-                        renderInput={(params) => (
-                            <TextField
-                            {...params}
-                            variant="standard"
-                            label="Ingredients"
-                            placeholder="Select ingredients"
-                            />
-                        )}
-                        onChange={onIngredientsChange}
-                        freeSolo
-                        selectOnFocus
-                        clearOnBlur
-                        handleHomeEndKeys
-                    />
                 </form>
             </ModalWindow>
         </React.Fragment>
