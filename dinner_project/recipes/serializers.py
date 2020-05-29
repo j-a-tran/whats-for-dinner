@@ -23,3 +23,15 @@ class RecipeSerializer(serializers.ModelSerializer):
             recipe.ingredients.add(ingredient)
         return recipe
 
+    ##editing name and desc only works if you also edit ingredients
+    def update(self, instance, validated_data):
+        ingredients_data = validated_data.pop('ingredients')
+        instance.name = validated_data.get('name', instance.name)
+        instance.desc = validated_data.get('desc', instance.desc)
+        instance.ingredients.clear()
+        instance.save()
+        for ingredient in ingredients_data:
+            ingredient, created = Ingredient.objects.get_or_create(name=ingredient['name'])
+            instance.ingredients.add(ingredient)
+        
+        return instance

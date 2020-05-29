@@ -8,6 +8,7 @@ import GridList from '@material-ui/core/Grid';
 import GridListTile from '@material-ui/core/GridListTile';
 import Chip from '@material-ui/core/Chip';
 import DeleteForm from './DeleteForm';
+import EditForm from './EditForm';
 
 class RecipeList extends Component {
 
@@ -34,6 +35,7 @@ class RecipeList extends Component {
                     </CardContent>
                   </CardActionArea>
                   <CardActions>
+                    <EditForm recipe={recipe} ingredients={ingredients} />
                     <DeleteForm recipe={recipe} />
                   </CardActions>
                 </Card>
