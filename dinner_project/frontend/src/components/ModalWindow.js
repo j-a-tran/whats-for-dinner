@@ -8,7 +8,7 @@ export default function ModalWindow(props) {
 
     return (
       <React.Fragment>
-        <Dialog open={props.isOpen} onBackdropClick={console.log(props.handleClose)}>
+        <Dialog open={props.isOpen} onClose={props.handleClose}>
           <DialogTitle id="dialog-title">{props.modalTitle}</DialogTitle>
           <DialogContent>
             {props.children}

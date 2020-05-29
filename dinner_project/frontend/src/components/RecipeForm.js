@@ -9,43 +9,29 @@ import AddIcon from '@material-ui/icons/Add';
 import axios from 'axios';
 import { API_URL } from '../constants/index';
 
-class RecipeForm extends React.Component {
-    
-    state = {
+export default function RecipeForm(props) {
+
+    const [isOpen, setOpen] = React.useState(false);
+    const [ingredients, setIngredients] = React.useState([]);
+    const [recipeData, setRecipeData] = React.useState({
         pk: 0,
         name: '',
-        desc: '',
-        ingredients: [],
-        isOpen: false
+        desc: ''
+    });
+    
+    const handleOpen = () => {
+        setOpen(true);
     };
 
-    handleOpen () {
-        this.setState({isOpen: true});
-    }
-
-    handleClose () {
-        this.setState({isOpen: false});
-    }
-
-    componentDidMount () {
-        if (this.props.recipe) {
-            const { pk, name, desc, ingredients } = this.props.recipe;
-            this.setState({
-                pk,
-                name,
-                desc,
-                ingredients
-            });
-        }
-    }
-
-    onChange = e => {
-        this.setState({ [e.target.name]: e.target.value });
-
+    const handleClose = () => {
+        setOpen(false);
     };
 
-    onIngredientsChange = (event, value) => {
+    const onChange = (event) => {
+        recipeData[event.target.name] = event.target.value
+    };
 
+    const onIngredientsChange = (event, value) => {
         const formattedIngredients = value.map( item => {
             const object = {};
             object.name = item;
@@ -53,74 +39,60 @@ class RecipeForm extends React.Component {
             return object;
         })
 
-        this.setState({ 
-            ingredients: formattedIngredients
-        });
-
-        console.log(value);
-        console.log(this.state)
- 
+        setIngredients(formattedIngredients);
     };
 
-    createRecipe = e => {
+    const createRecipe = (e) => {
         e.preventDefault();
 
         const payload = {
-            pk: this.state.pk,
-            name: this.state.name,
-            desc: this.state.desc,
-            ingredients: this.state.ingredients
+            pk: recipeData.pk,
+            name: recipeData.name,
+            desc: recipeData.desc,
+            ingredients: ingredients
         }
 
         axios.post(API_URL.concat("recipes/"), payload
         ).then(() => {
-            console.log(this.state);
-            this.handleClose();
+            handleClose();
         })
     };
 
-    render () {
+    const actions = [
+        <Button type="submit" form="recipeForm">Save</Button>,
+        <Button onClick={handleClose}>Close</Button>
+    ];
 
-        const actions = [
-            <Button type="submit" form="recipeForm">Save</Button>,
-            <Button onClick={ () => this.handleClose() }>Close</Button>
-        ];
+    return (
+        <React.Fragment>
+            <Fab color='primary' onClick={handleOpen}>
+                <AddIcon />
+            </Fab>
+            <ModalWindow isOpen={isOpen} handleClose={handleClose} modalTitle="Create Recipe" actions={actions}>
+                <form noValidate autoComplete='off' onSubmit={createRecipe} id="recipeForm">
+                    <TextField required name="name" label="Name" onChange={onChange} />
+                    <TextField name="desc" label="Description" onChange={onChange} />
 
-        return (
-            <React.Fragment>
-                <Fab color='primary' onClick={ () => this.handleOpen() }>
-                    <AddIcon />
-                </Fab>
-                <ModalWindow isOpen={this.state.isOpen} handleClose={this.handleClose} modalTitle="Create Recipe" actions={actions}>
-                    <form noValidate autoComplete='off' onSubmit={this.createRecipe} id="recipeForm">
-                        <TextField required name="name" label="Name" onChange={this.onChange} />
-                        <TextField name="desc" label="Description" onChange={this.onChange} />
-
-                        <Autocomplete 
-                            multiple
-                            id="ingredients"
-                            options={this.props.ingredients.map((option) => option.name)}
-                            renderInput={(params) => (
-                                <TextField
-                                {...params}
-                                variant="standard"
-                                label="Ingredients"
-                                placeholder="Select ingredients"
-                                />
-                            )}
-                            onChange={this.onIngredientsChange}
-                            freeSolo
-                            selectOnFocus
-                            clearOnBlur
-                            handleHomeEndKeys
-                        />
-                    </form>
-                </ModalWindow>
-            </React.Fragment>
-        )
-
-    }
-
+                    <Autocomplete 
+                        multiple
+                        id="ingredients"
+                        options={props.ingredients.map((option) => option.name)}
+                        renderInput={(params) => (
+                            <TextField
+                            {...params}
+                            variant="standard"
+                            label="Ingredients"
+                            placeholder="Select ingredients"
+                            />
+                        )}
+                        onChange={onIngredientsChange}
+                        freeSolo
+                        selectOnFocus
+                        clearOnBlur
+                        handleHomeEndKeys
+                    />
+                </form>
+            </ModalWindow>
+        </React.Fragment>
+    )
 }
-
-export default RecipeForm;
