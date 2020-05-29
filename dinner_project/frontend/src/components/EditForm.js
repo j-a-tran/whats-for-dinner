@@ -55,6 +55,7 @@ export default function DeleteForm(props) {
         console.log(payload);
 
         axios.put(API_URL + "recipes/" + recipe.pk, payload).then( () => {
+            props.resetState();
             handleClose();
         })
     };

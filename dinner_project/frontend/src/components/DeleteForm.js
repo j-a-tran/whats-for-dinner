@@ -21,6 +21,7 @@ export default function DeleteForm(props) {
 
     const deleteRecipe = () => {
         axios.delete(API_URL + "recipes/" + recipe.pk).then( () => {
+            props.resetState();
             handleClose();
         })
     };

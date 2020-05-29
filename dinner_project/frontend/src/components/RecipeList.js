@@ -35,8 +35,8 @@ class RecipeList extends Component {
                     </CardContent>
                   </CardActionArea>
                   <CardActions>
-                    <EditForm recipe={recipe} ingredients={ingredients} />
-                    <DeleteForm recipe={recipe} />
+                    <EditForm recipe={recipe} ingredients={ingredients} resetState={this.props.resetState}/>
+                    <DeleteForm recipe={recipe} resetState={this.props.resetState}/>
                   </CardActions>
                 </Card>
               </GridListTile>

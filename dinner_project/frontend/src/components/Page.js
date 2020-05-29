@@ -42,7 +42,7 @@ class Page extends Component {
                 <Grid item xs={9}>
                     <IngredientsSearch ingredients={this.state.ingredients} resetState={this.resetState} /> 
                 </Grid>
-                <RecipeForm ingredients={this.state.ingredients} />
+                <RecipeForm ingredients={this.state.ingredients} resetState={this.resetState} />
                 <Grid item xs={9}>
                     <RecipeList recipes={this.state.recipes} resetState={this.resetState} ingredients={this.state.ingredients}/>    
                 </Grid>

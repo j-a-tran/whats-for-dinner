@@ -54,6 +54,7 @@ export default function RecipeForm(props) {
 
         axios.post(API_URL.concat("recipes/"), payload
         ).then(() => {
+            props.resetState();
             handleClose();
         })
     };
