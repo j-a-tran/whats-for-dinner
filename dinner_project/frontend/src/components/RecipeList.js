@@ -22,7 +22,7 @@ class RecipeList extends Component {
               <Typography>No recipes added.</Typography>
           ) : (
             recipes.map(recipe => (
-              <GridListTile component="Card" cols={1} spacing={10}>
+              <GridListTile component="Card" key={recipe.pk} spacing={10}>
                 <Card key={recipe.pk} variant="outlined">
                   <CardActionArea>
                     <CardContent>

@@ -2,6 +2,17 @@ import React, { Component } from 'react';
 import RecipeList from "./RecipeList";
 import Grid from '@material-ui/core/Grid';
 import IngredientsSearch from './IngredientsSearch';
+import Container from '@material-ui/core/Container';
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import Typography from '@material-ui/core/Typography';
+import Chip from '@material-ui/core/Chip';
+import DeleteForm from './DeleteForm';
+import EditForm from './EditForm';
+import GridList from '@material-ui/core/Grid';
+import GridListTile from '@material-ui/core/GridListTile';
 
 import axios from 'axios';
 
@@ -35,19 +46,36 @@ class Page extends Component {
 
     render () {
         return (
-        <div>
+            <React.Fragment>
+            <RecipeForm ingredients={this.state.ingredients} resetState={this.resetState} />
+            <Container> 
+                <Grid container spacing={3}>
+                    <Grid item xs={9} md={9} lg ={12}>
+                        <IngredientsSearch ingredients={this.state.ingredients} resetState={this.resetState} /> 
+                    </Grid>
 
-
-            <Grid container spacing={3} justify='center'>
-                <Grid item xs={9}>
-                    <IngredientsSearch ingredients={this.state.ingredients} resetState={this.resetState} /> 
+                    {this.state.recipes.map(recipe => (
+                        <Grid item xs={9} md={6} lg={6} spacing={2}>
+                            <Card key={recipe.pk} variant="outlined">
+                                <CardActionArea>
+                                    <CardContent>
+                                        <Typography gutterBottom variant="h5" component="h2">{recipe.name}</Typography>
+                                        <Typography variant="body2" color="textSecondary" component="p">{recipe.desc}</Typography>
+                                        {recipe.ingredients.map(ingredient => (
+                                        <Chip label={ingredient.name} size="small" />
+                                        ))}
+                                    </CardContent>
+                                </CardActionArea>
+                                <CardActions>
+                                    <EditForm recipe={recipe} ingredients={this.state.ingredients} resetState={this.resetState}/>
+                                    <DeleteForm recipe={recipe} resetState={this.resetState}/>
+                                </CardActions>
+                            </Card>
+                        </Grid>
+                    ))}
                 </Grid>
-                <RecipeForm ingredients={this.state.ingredients} resetState={this.resetState} />
-                <Grid item xs={9}>
-                    <RecipeList recipes={this.state.recipes} resetState={this.resetState} ingredients={this.state.ingredients}/>    
-                </Grid>
-            </Grid>
-        </div>
+            </Container>
+        </React.Fragment>
 
         );
     }
