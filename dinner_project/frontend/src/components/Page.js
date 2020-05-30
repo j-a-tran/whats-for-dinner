@@ -23,7 +23,8 @@ import RecipeForm from './RecipeForm';
 class Page extends Component {
     state = {
         recipes: [],
-        ingredients: []
+        ingredients: [],
+        searchParams: []
     };
 
     componentDidMount() {
@@ -44,6 +45,14 @@ class Page extends Component {
         this.getIngredients();
     };
 
+    getSearchParams = (event, value) => {
+        this.setState({
+            searchParams: value
+        });
+
+        console.log(value);
+    };
+
     render () {
         return (
             <React.Fragment>
@@ -51,7 +60,7 @@ class Page extends Component {
             <Container> 
                 <Grid container spacing={3}>
                     <Grid item xs={9} md={9} lg ={12}>
-                        <IngredientsSearch ingredients={this.state.ingredients} resetState={this.resetState} /> 
+                        <IngredientsSearch ingredients={this.state.ingredients} resetState={this.resetState} getSearchParams={this.getSearchParams}/> 
                     </Grid>
 
                     {this.state.recipes.map(recipe => (
