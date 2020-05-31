@@ -66,11 +66,13 @@ export default function DeleteForm(props) {
         <Button onClick={handleClose}>Close</Button>
     ];
 
+
     return (
         <React.Fragment>
             <Button color='primary' onClick={handleOpen}>
                 Edit
             </Button>
+
             <ModalWindow isOpen={isOpen} handleClose={handleClose} modalTitle={'Edit "' + recipe.name + '"'} actions={actions}>
                 <form noValidate autoComplete='off' onSubmit={editRecipe} id="recipeForm">
                     <Grid container spacing={2}>

@@ -10,6 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import Chip from '@material-ui/core/Chip';
 import DeleteForm from './DeleteForm';
 import EditForm from './EditForm';
+import Button from '@material-ui/core/Button';
 
 import axios from 'axios';
 import qs from 'qs';
@@ -23,10 +24,11 @@ export default function Page () {
     const [recipes, setRecipes] = React.useState([]);
     const [ingredients, setIngredients] = React.useState([]);
     const [searchParams, setSearchParams] = React.useState([]);
+    const [randomRec, setRandomRec] = React.useState({});
 
     React.useEffect(() =>  {
         axios.get(API_URL.concat("recipes/")).then(res => setRecipes(res.data));
-        axios.get(API_URL.concat('ingredients/')).then(res => setIngredients(res.data));  
+        axios.get(API_URL.concat('ingredients/')).then(res => setIngredients(res.data));
     }, []);
 
     React.useEffect(() => {
@@ -39,8 +41,14 @@ export default function Page () {
             }
         }).then(res => setRecipes(res.data));
 
+        setRandomRec('');
+
     }, [searchParams])
-    
+
+    const getRandom = () => {
+        setRandomRec(recipes[Math.floor(Math.random()*recipes.length)]);
+    };
+
     const getSearchParams = (event, value) => {
         const formattedParams = [];
         
@@ -60,34 +68,51 @@ export default function Page () {
         <React.Fragment>
             <NewForm ingredients={ingredients} resetState={resetState} />
                 <Container> 
-                    <Grid container spacing={3}>
+                        <Grid container spacing={3}>
+                        
+                        {!recipes || recipes.length <=0 ? (
+                            <Button disabled>Randomize Me!</Button>
+                        ) : ( 
+                        
+                            <React.Fragment>
+                                 <Button variant='contained' onClick={getRandom}>Randomize Me!</Button>
+                            <Typography>{randomRec.name}</Typography>
+
+                            </React.Fragment>
+                           
+                        )}
+
                         <Grid item xs={9} md={9} lg ={12}>
                             <IngredientsSearch ingredients={ingredients} resetState={resetState} getSearchParams={getSearchParams}/> 
-                    </Grid>
-
-                    {recipes.map(recipe => (
-                        <Grid item xs={9} md={6} lg={6} spacing={2}>
-                            <Card key={recipe.pk} variant="outlined">
-                                <CardActionArea>
-                                    <CardContent>
-                                        <Typography gutterBottom variant="h5" component="h2">{recipe.name}</Typography>
-                                        <Typography variant="body2" color="textSecondary" component="p">{recipe.desc}</Typography>
-                                        {recipe.ingredients.map(ingredient => (
-                                        <Chip label={ingredient.name} size="small" />
-                                        ))}
-                                    </CardContent>
-                                </CardActionArea>
-                                <CardActions>
-                                    <EditForm recipe={recipe} ingredients={ingredients} resetState={resetState}/>
-                                    <DeleteForm recipe={recipe} resetState={resetState}/>
-                                </CardActions>
-                            </Card>
                         </Grid>
-                    ))}
 
+                        {!recipes || recipes.length <=0 ? (
+                            <Grid item>
+                                <Typography>No recipes!</Typography>
+                            </Grid> 
+                        ) : (recipes.map(recipe => (
+                            <Grid item xs={9} md={6} lg={6} spacing={2}>
+                                <Card key={recipe.pk} variant="outlined">
+                                    <CardActionArea>
+                                        <CardContent>
+                                            <Typography gutterBottom variant="h5" component="h2">{recipe.name}</Typography>
+                                            
+                                            <Typography variant="body2" color="textSecondary" component="p">{recipe.desc}</Typography>
+                                            {recipe.ingredients.map(ingredient => (
+                                            <Chip label={ingredient.name} size="small" />
+                                            ))}
+                                        </CardContent>
+                                    </CardActionArea>
+                                    <CardActions>
+                                        <EditForm recipe={recipe} ingredients={ingredients} buttonType='edit' resetState={resetState}/>
+                                        <DeleteForm recipe={recipe} resetState={resetState}/>
+                                    </CardActions>
+                                </Card>
+                            </Grid>
+                        )))}
 
-                </Grid>
-            </Container>
+                    </Grid>
+                </Container>
         </React.Fragment>
 
         );
