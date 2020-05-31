@@ -9,32 +9,21 @@ export default function DeleteForm(props) {
     
     const recipe = props.recipe;
 
-    const [isOpen, setOpen] = React.useState(false);
-
-    const handleOpen = () => {
-        setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
-    };
-
     const deleteRecipe = () => {
         axios.delete(API_URL + "recipes/" + recipe.pk).then( () => {
             props.resetState();
-            handleClose();
+            props.handleClose();
         })
     };
 
     const actions = [
         <Button onClick={deleteRecipe}>Delete</Button>,
-        <Button onClick={handleClose}>Cancel</Button>
+        <Button onClick={props.handleClose}>Cancel</Button>
     ];
 
     return (
         <React.Fragment>
-            <Button color='primary' onClick={handleOpen}>Delete</Button>
-            <ModalWindow isOpen={isOpen} handleClose={handleClose} modalTitle={'Delete "' + recipe.name + '"'} actions={actions}>
+            <ModalWindow isOpen={props.isOpen} handleClose={props.handleClose} modalTitle={'Delete "' + recipe.name + '"'} actions={actions}>
                 <p>Are you sure you want to delete this recipe?</p>
             </ModalWindow>
         </React.Fragment>

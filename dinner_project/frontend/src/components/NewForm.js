@@ -3,8 +3,6 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import ModalWindow from './ModalWindow';
-import Fab from '@material-ui/core/Fab';
-import AddIcon from '@material-ui/icons/Add';
 import Grid from '@material-ui/core/Grid';
 
 import axios from 'axios';
@@ -12,21 +10,12 @@ import { API_URL } from '../constants/index';
 
 export default function NewForm(props) {
 
-    const [isOpen, setOpen] = React.useState(false);
     const [ingredients, setIngredients] = React.useState([]);
     const [recipeData, setRecipeData] = React.useState({
         pk: 0,
         name: '',
         desc: ''
     });
-    
-    const handleOpen = () => {
-        setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
-    };
 
     const onChange = (event) => {
         recipeData[event.target.name] = event.target.value
@@ -56,21 +45,18 @@ export default function NewForm(props) {
         axios.post(API_URL.concat("recipes/"), payload
         ).then(() => {
             props.resetState();
-            handleClose();
+            props.handleClose();
         })
     };
 
     const actions = [
         <Button type="submit" form="recipeForm">Save</Button>,
-        <Button onClick={handleClose}>Close</Button>
+        <Button onClick={props.handleClose}>Close</Button>
     ];
 
     return (
         <React.Fragment>
-            <Fab color='primary' onClick={handleOpen}>
-                <AddIcon />
-            </Fab>
-            <ModalWindow isOpen={isOpen} handleClose={handleClose} modalTitle="Create Recipe" actions={actions}>
+            <ModalWindow isOpen={props.isOpen} handleClose={props.handleClose} modalTitle="Create Recipe" actions={actions}>
                 <form noValidate autoComplete='off' onSubmit={createRecipe} id="recipeForm">
                         <Grid container spacing={2}>
                             <Grid item xs={12}>

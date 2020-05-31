@@ -12,21 +12,12 @@ export default function DeleteForm(props) {
     
     const recipe = props.recipe;
 
-    const [isOpen, setOpen] = React.useState(false);
     const [recipeIngredients, setRecipeIngredients] = React.useState(recipe.ingredients);
     const [recipeData, setRecipeData] = React.useState({
         pk: recipe.pk,
         name: recipe.name,
         desc: recipe.desc
     });
-
-    const handleOpen = () => {
-        setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
-    };
 
     const onChange = (event) => {
         recipeData[event.target.name] = event.target.value
@@ -57,23 +48,19 @@ export default function DeleteForm(props) {
 
         axios.put(API_URL + "recipes/" + recipe.pk, payload).then( () => {
             props.resetState();
-            handleClose();
+            props.handleClose();
         })
     };
 
     const actions = [
         <Button type="submit" form="recipeForm">Save</Button>,
-        <Button onClick={handleClose}>Close</Button>
+        <Button onClick={props.handleClose}>Close</Button>
     ];
 
 
     return (
         <React.Fragment>
-            <Button color='primary' onClick={handleOpen}>
-                Edit
-            </Button>
-
-            <ModalWindow isOpen={isOpen} handleClose={handleClose} modalTitle={'Edit "' + recipe.name + '"'} actions={actions}>
+            <ModalWindow isOpen={props.isOpen} handleClose={props.handleClose} modalTitle={recipe.name} actions={actions}>
                 <form noValidate autoComplete='off' onSubmit={editRecipe} id="recipeForm">
                     <Grid container spacing={2}>
                             <Grid item xs={12}>

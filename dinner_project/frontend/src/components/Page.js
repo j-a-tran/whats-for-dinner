@@ -8,15 +8,16 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Chip from '@material-ui/core/Chip';
-import DeleteForm from './DeleteForm';
-import EditForm from './EditForm';
 import Button from '@material-ui/core/Button';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
+import ModalRouter from './ModalRouter';
 
 import axios from 'axios';
 import qs from 'qs';
 
 import { API_URL } from '../constants/index';
-import NewForm from './NewForm';
+
 
 
 export default function Page () {
@@ -24,7 +25,9 @@ export default function Page () {
     const [recipes, setRecipes] = React.useState([]);
     const [ingredients, setIngredients] = React.useState([]);
     const [searchParams, setSearchParams] = React.useState([]);
-    const [randomRec, setRandomRec] = React.useState({});
+    const [selectedRec, setSelectedRec] = React.useState({});
+    const [isOpen, setOpen] = React.useState(false);
+    const [currentModal, setCurrentModal] = React.useState(null);
 
     React.useEffect(() =>  {
         axios.get(API_URL.concat("recipes/")).then(res => setRecipes(res.data));
@@ -41,12 +44,28 @@ export default function Page () {
             }
         }).then(res => setRecipes(res.data));
 
-        setRandomRec('');
+        setSelectedRec('');
 
     }, [searchParams])
 
+    const handleOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const getSelected = (recipe) => {
+        setSelectedRec(recipes.find(r => r.pk == recipe.pk))
+    };
+
     const getRandom = () => {
-        setRandomRec(recipes[Math.floor(Math.random()*recipes.length)]);
+        setSelectedRec(recipes[Math.floor(Math.random()*recipes.length)]);
+    };
+
+    const getModal = (modal) => {
+        setCurrentModal(modal);
     };
 
     const getSearchParams = (event, value) => {
@@ -64,9 +83,30 @@ export default function Page () {
         axios.get(API_URL.concat('ingredients/')).then(res => setIngredients(res.data));  
     };
 
+    const debugObject = {
+        pk: 0,
+        name: 'Test',
+        desc: 'Test',
+        ingredients: [{
+            "pk": 1,
+            "name": "Water"
+        },
+        {
+            "pk": 2,
+            "name": "Onions"
+        },
+        {
+            "pk": 12,
+            "name": "Flour"
+        }]}
+
     return (
         <React.Fragment>
-            <NewForm ingredients={ingredients} resetState={resetState} />
+            <Fab color='primary' onClick={ () => {
+                getModal('new');
+                }}>
+                <AddIcon />
+            </Fab>
                 <Container> 
                         <Grid container spacing={3}>
                         
@@ -75,11 +115,12 @@ export default function Page () {
                         ) : ( 
                         
                             <React.Fragment>
-                                 <Button variant='contained' onClick={getRandom}>Randomize Me!</Button>
-                            <Typography>{randomRec.name}</Typography>
-
+                                 <Button variant='contained' onClick={ () => {
+                                     getRandom();
+                                     getModal('edit');
+                                     handleOpen();
+                                    }}>Randomize Me!</Button>
                             </React.Fragment>
-                           
                         )}
 
                         <Grid item xs={9} md={9} lg ={12}>
@@ -104,8 +145,16 @@ export default function Page () {
                                         </CardContent>
                                     </CardActionArea>
                                     <CardActions>
-                                        <EditForm recipe={recipe} ingredients={ingredients} buttonType='edit' resetState={resetState}/>
-                                        <DeleteForm recipe={recipe} resetState={resetState}/>
+                                        <Button color='primary' onClick={ () => {
+                                            getSelected(recipe);
+                                            handleOpen();
+                                            getModal('edit');
+                                        }} >Edit</Button>
+                                        <Button color='primary' onClick={ () => {
+                                            getSelected(recipe);
+                                            handleOpen();
+                                            getModal('delete');
+                                        }}>Delete</Button>
                                     </CardActions>
                                 </Card>
                             </Grid>
@@ -113,8 +162,8 @@ export default function Page () {
 
                     </Grid>
                 </Container>
+                <ModalRouter currentModal={currentModal} isOpen={isOpen} handleClose={handleClose} recipe={selectedRec} ingredients={ingredients} resetState={resetState}/>
         </React.Fragment>
-
         );
     
 }
