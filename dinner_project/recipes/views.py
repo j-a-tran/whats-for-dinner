@@ -72,7 +72,13 @@ class RecipeDeleteView(DeleteView):
 @api_view(['GET','POST'])
 def recipes_list(request):
     if request.method == 'GET':
-        data = Recipe.objects.all()
+
+        query = request.GET.getlist('ingredients')
+
+        if query:
+            data = Recipe.objects.filter(ingredients__in=query).distinct()
+        else:
+            data = Recipe.objects.all()
 
         serializer  = RecipeSerializer(data, context={'request': request}, many=True)
 

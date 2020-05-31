@@ -10,7 +10,7 @@ import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
 import { API_URL } from '../constants/index';
 
-export default function RecipeForm(props) {
+export default function NewForm(props) {
 
     const [isOpen, setOpen] = React.useState(false);
     const [ingredients, setIngredients] = React.useState([]);

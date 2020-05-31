@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import RecipeList from "./RecipeList";
 import Grid from '@material-ui/core/Grid';
 import IngredientsSearch from './IngredientsSearch';
 import Container from '@material-ui/core/Container';
@@ -11,59 +10,62 @@ import Typography from '@material-ui/core/Typography';
 import Chip from '@material-ui/core/Chip';
 import DeleteForm from './DeleteForm';
 import EditForm from './EditForm';
-import GridList from '@material-ui/core/Grid';
-import GridListTile from '@material-ui/core/GridListTile';
 
 import axios from 'axios';
+import qs from 'qs';
 
 import { API_URL } from '../constants/index';
-import RecipeForm from './RecipeForm';
+import NewForm from './NewForm';
 
 
-class Page extends Component {
-    state = {
-        recipes: [],
-        ingredients: [],
-        searchParams: []
-    };
+export default function Page () {
 
-    componentDidMount() {
-        this.resetState();
-    }
+    const [recipes, setRecipes] = React.useState([]);
+    const [ingredients, setIngredients] = React.useState([]);
+    const [searchParams, setSearchParams] = React.useState([]);
 
-    getRecipes = () => {
-      axios.get(API_URL.concat("recipes/")).then(res => this.setState({ recipes: res.data}));  
+    React.useEffect(() =>  {
+        axios.get(API_URL.concat("recipes/")).then(res => setRecipes(res.data));
+        axios.get(API_URL.concat('ingredients/')).then(res => setIngredients(res.data));  
+    }, []);
+
+    React.useEffect(() => {
+        axios.get(API_URL.concat("recipes/"),{
+            params: {
+                ingredients: searchParams
+            },
+            paramsSerializer: params => {
+                return qs.stringify(params, {arrayFormat: 'repeat'})
+            }
+        }).then(res => setRecipes(res.data));
+
+    }, [searchParams])
     
-    };
-
-    getIngredients = () => {
-        axios.get(API_URL.concat("ingredients/")).then(res => this.setState({ ingredients: res.data}));  
-      };
-
-    resetState = () => {
-        this.getRecipes();
-        this.getIngredients();
-    };
-
-    getSearchParams = (event, value) => {
-        this.setState({
-            searchParams: value
+    const getSearchParams = (event, value) => {
+        const formattedParams = [];
+        
+        value.map(item => {
+            formattedParams.push(item.pk);
         });
 
-        console.log(value);
+        setSearchParams(formattedParams);
     };
 
-    render () {
-        return (
-            <React.Fragment>
-            <RecipeForm ingredients={this.state.ingredients} resetState={this.resetState} />
-            <Container> 
-                <Grid container spacing={3}>
-                    <Grid item xs={9} md={9} lg ={12}>
-                        <IngredientsSearch ingredients={this.state.ingredients} resetState={this.resetState} getSearchParams={this.getSearchParams}/> 
+    const resetState = () => {
+        axios.get(API_URL.concat("recipes/")).then(res => setRecipes(res.data));
+        axios.get(API_URL.concat('ingredients/')).then(res => setIngredients(res.data));  
+    };
+
+    return (
+        <React.Fragment>
+            <NewForm ingredients={ingredients} resetState={resetState} />
+                <Container> 
+                    <Grid container spacing={3}>
+                        <Grid item xs={9} md={9} lg ={12}>
+                            <IngredientsSearch ingredients={ingredients} resetState={resetState} getSearchParams={getSearchParams}/> 
                     </Grid>
 
-                    {this.state.recipes.map(recipe => (
+                    {recipes.map(recipe => (
                         <Grid item xs={9} md={6} lg={6} spacing={2}>
                             <Card key={recipe.pk} variant="outlined">
                                 <CardActionArea>
@@ -76,8 +78,8 @@ class Page extends Component {
                                     </CardContent>
                                 </CardActionArea>
                                 <CardActions>
-                                    <EditForm recipe={recipe} ingredients={this.state.ingredients} resetState={this.resetState}/>
-                                    <DeleteForm recipe={recipe} resetState={this.resetState}/>
+                                    <EditForm recipe={recipe} ingredients={ingredients} resetState={resetState}/>
+                                    <DeleteForm recipe={recipe} resetState={resetState}/>
                                 </CardActions>
                             </Card>
                         </Grid>
@@ -89,7 +91,5 @@ class Page extends Component {
         </React.Fragment>
 
         );
-    }
+    
 }
-
-export default Page;

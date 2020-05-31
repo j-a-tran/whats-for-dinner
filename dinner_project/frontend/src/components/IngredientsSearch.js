@@ -10,7 +10,7 @@ class IngredientsSearch extends Component {
         return (
 
             <Autocomplete 
-                onChange={this.props.getSearchParams}
+                onChange ={this.props.getSearchParams}
                 multiple
                 id="ingredients-search"
                 options={ingredients}
