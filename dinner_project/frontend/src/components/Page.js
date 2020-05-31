@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import IngredientsSearch from './IngredientsSearch';
 import Container from '@material-ui/core/Container';
@@ -35,6 +35,7 @@ export default function Page () {
     }, []);
 
     React.useEffect(() => {
+
         axios.get(API_URL.concat("recipes/"),{
             params: {
                 ingredients: searchParams
@@ -43,8 +44,6 @@ export default function Page () {
                 return qs.stringify(params, {arrayFormat: 'repeat'})
             }
         }).then(res => setRecipes(res.data));
-
-        setSelectedRec('');
 
     }, [searchParams])
 
@@ -57,7 +56,7 @@ export default function Page () {
     };
 
     const getSelected = (recipe) => {
-        setSelectedRec(recipes.find(r => r.pk == recipe.pk))
+        setSelectedRec(recipes.find(r => r.pk === recipe.pk))
     };
 
     const getRandom = () => {
@@ -73,6 +72,7 @@ export default function Page () {
         
         value.map(item => {
             formattedParams.push(item.pk);
+            return formattedParams;
         });
 
         setSearchParams(formattedParams);
@@ -82,23 +82,6 @@ export default function Page () {
         axios.get(API_URL.concat("recipes/")).then(res => setRecipes(res.data));
         axios.get(API_URL.concat('ingredients/')).then(res => setIngredients(res.data));  
     };
-
-    const debugObject = {
-        pk: 0,
-        name: 'Test',
-        desc: 'Test',
-        ingredients: [{
-            "pk": 1,
-            "name": "Water"
-        },
-        {
-            "pk": 2,
-            "name": "Onions"
-        },
-        {
-            "pk": 12,
-            "name": "Flour"
-        }]}
 
     return (
         <React.Fragment>
