@@ -45,7 +45,7 @@ export default function Page () {
             }
         }).then(res => setRecipes(res.data));
 
-    }, [searchParams])
+    }, [searchParams, recipes])
 
     const handleOpen = () => {
         setOpen(true);
@@ -87,6 +87,7 @@ export default function Page () {
         <React.Fragment>
             <Fab color='primary' onClick={ () => {
                 getModal('new');
+                handleOpen();
                 }}>
                 <AddIcon />
             </Fab>
