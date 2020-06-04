@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from rest_framework_simplejwt import views as jwt_views
 
 urlpatterns = [
     path('', views.RecipeListView.as_view(), name='index'),
@@ -12,4 +13,7 @@ urlpatterns = [
     path('api/recipes/', views.recipes_list),
     path('api/recipes/<int:pk>', views.recipes_detail),
     path('api/ingredients/', views.ingredients_list),
+    path('api/token/obtain/', jwt_views.TokenObtainPairView.as_view(), name='token-create'),
+    path('api/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/user/create/', views.create_user, name='user-create'),
 ]
