@@ -8,6 +8,9 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
+import axios from 'axios';
+import { API_URL } from '../constants/index';
+
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -31,6 +34,22 @@ const useStyles = makeStyles((theme) => ({
 export default function Register() {
   const classes = useStyles();
 
+  const [userData, setUserData] = React.useState({
+        username: '',
+        password: ''
+  });  
+  
+  const onChange = (event) => {
+      userData[event.target.name] = event.target.value
+  };
+
+  const onSubmit = (event) => {
+      event.preventDefault();
+
+      console.log(userData.username);
+      console.log(userData.password);
+  };
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -38,8 +57,9 @@ export default function Register() {
         <Typography component="h1" variant="h5">
           Register
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} noValidate onSubmit={onSubmit}>
           <TextField
+            onChange={onChange}
             variant="outlined"
             margin="normal"
             required
@@ -50,6 +70,7 @@ export default function Register() {
             autoFocus
           />
           <TextField
+            onChange={onChange}
             variant="outlined"
             margin="normal"
             required
@@ -58,7 +79,6 @@ export default function Register() {
             label="Password"
             type="password"
             id="password"
-            autoComplete="current-password"
           />
           <Button
             type="submit"
@@ -71,7 +91,7 @@ export default function Register() {
           </Button>
           <Grid container>
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link href='/login' variant="body2">
                 {"Already have an account? Log in."}
               </Link>
             </Grid>

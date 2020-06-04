@@ -8,6 +8,9 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
+import axios from 'axios';
+import { API_URL } from '../constants/index';
+
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -29,7 +32,23 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Login() {
-  const classes = useStyles();
+    const classes = useStyles();
+
+    const [userData, setUserData] = React.useState({
+        username: '',
+        password: ''
+    });  
+
+    const onChange = (event) => {
+        userData[event.target.name] = event.target.value
+    };
+
+    const onSubmit = (event) => {
+        event.preventDefault();
+
+        console.log(userData.username);
+        console.log(userData.password);
+    };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -38,8 +57,9 @@ export default function Login() {
         <Typography component="h1" variant="h5">
           Log In
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} noValidate onSubmit={onSubmit}>
           <TextField
+            onChange={onChange}
             variant="outlined"
             margin="normal"
             required
@@ -50,6 +70,7 @@ export default function Login() {
             autoFocus
           />
           <TextField
+            onChange={onChange}
             variant="outlined"
             margin="normal"
             required
@@ -71,8 +92,8 @@ export default function Login() {
           </Button>
           <Grid container>
             <Grid item>
-              <Link href="#" variant="body2">
-                {"Don't have an account? Sign Up"}
+              <Link href='/register' variant="body2">
+                {"Don't have an account? Sign Up."}
               </Link>
             </Grid>
           </Grid>

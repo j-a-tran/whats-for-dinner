@@ -26,13 +26,13 @@ function App() {
           </Toolbar>
         </AppBar>
       </nav>
-      <div>
+      <main>
         <Switch>
           <Route path='/register' component={Register} />
           <Route path='/login' component={Login} />
           <Route path='/' component={Page} />
         </Switch>
-      </div>
+      </main>
     </div>
   );
 }
