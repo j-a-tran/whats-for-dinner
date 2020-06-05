@@ -9,7 +9,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
 import axios from 'axios';
-import { API_URL } from '../constants/index';
+import { API_URL, axiosInstance } from '../constants/index';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -46,8 +46,23 @@ export default function Login() {
     const onSubmit = (event) => {
         event.preventDefault();
 
-        console.log(userData.username);
-        console.log(userData.password);
+        axiosInstance.post('/token/obtain/', {
+            username: userData.username,
+            password: userData.password
+        })
+        .then(function (response) {
+            
+            axiosInstance.defaults.headers['Authorization'] = "JWT " + response.data.access;
+            localStorage.setItem('access_token', response.data.access);
+            localStorage.setItem('refresh_token', response.data.refresh);
+
+            console.log(response);
+            console.log(localStorage);
+            console.log(axiosInstance.defaults.headers);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
     };
 
   return (
