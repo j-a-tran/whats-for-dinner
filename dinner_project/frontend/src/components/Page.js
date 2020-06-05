@@ -16,9 +16,7 @@ import ModalRouter from './ModalRouter';
 import axios from 'axios';
 import qs from 'qs';
 
-import { API_URL } from '../constants/index';
-
-
+import { API_URL, axiosInstance } from '../constants/index';
 
 export default function Page () {
 
@@ -30,13 +28,13 @@ export default function Page () {
     const [currentModal, setCurrentModal] = React.useState(null);
 
     React.useEffect(() =>  {
-        axios.get(API_URL.concat("recipes/")).then(res => setRecipes(res.data));
-        axios.get(API_URL.concat('ingredients/')).then(res => setIngredients(res.data));
+        axiosInstance.get(API_URL.concat("recipes/")).then(res => setRecipes(res.data));
+        axiosInstance.get(API_URL.concat('ingredients/')).then(res => setIngredients(res.data));
     }, []);
 
     React.useEffect(() => {
 
-        axios.get(API_URL.concat("recipes/"),{
+        axiosInstance.get(API_URL.concat("recipes/"),{
             params: {
                 ingredients: searchParams
             },
@@ -45,7 +43,7 @@ export default function Page () {
             }
         }).then(res => setRecipes(res.data));
 
-    }, [searchParams, recipes])
+    }, [searchParams])
 
     const handleOpen = () => {
         setOpen(true);
@@ -79,8 +77,8 @@ export default function Page () {
     };
 
     const resetState = () => {
-        axios.get(API_URL.concat("recipes/")).then(res => setRecipes(res.data));
-        axios.get(API_URL.concat('ingredients/')).then(res => setIngredients(res.data));  
+        axiosInstance.get(API_URL.concat("recipes/")).then(res => setRecipes(res.data));
+        axiosInstance.get(API_URL.concat('ingredients/')).then(res => setIngredients(res.data));  
     };
 
     return (
