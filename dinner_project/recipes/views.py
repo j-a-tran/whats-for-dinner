@@ -130,6 +130,7 @@ def ingredients_list(request):
 
 @api_view(['POST'])
 @permission_classes([permissions.AllowAny])
+@authentication_classes([])
 def create_user(request):
     
     serializer = UserSerializer(data=request.data)

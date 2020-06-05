@@ -9,7 +9,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
 import axios from 'axios';
-import { API_URL } from '../constants/index';
+import { API_URL, axiosInstance } from '../constants/index';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -46,8 +46,16 @@ export default function Register() {
   const onSubmit = (event) => {
       event.preventDefault();
 
-      console.log(userData.username);
-      console.log(userData.password);
+      axiosInstance.post('/user/create/', {
+        username: userData.username,
+        password: userData.password
+      })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error.stack);
+      })
   };
 
   return (
