@@ -37,10 +37,20 @@ export default function Register() {
   const [userData, setUserData] = React.useState({
         username: '',
         password: ''
-  });  
+  });
+  
+  const [helperText, setHelperText] = React.useState({
+        usernameHelper: '',
+        passwordHelper: ''
+  })
   
   const onChange = (event) => {
       userData[event.target.name] = event.target.value
+
+      setHelperText({
+        usernameHelper: '',
+        passwordHelper: ''
+      });
   };
 
   const onSubmit = (event) => {
@@ -54,7 +64,11 @@ export default function Register() {
         console.log(response);
       })
       .catch(function (error) {
-        console.log(error.stack);
+        console.log(error.response);
+        setHelperText({
+          usernameHelper: error.response.data.username,
+          passwordHelper: error.response.data.password
+        });
       })
   };
 
@@ -68,6 +82,8 @@ export default function Register() {
         <form className={classes.form} noValidate onSubmit={onSubmit}>
           <TextField
             onChange={onChange}
+            error={helperText.usernameHelper}
+            helperText={helperText.usernameHelper}
             variant="outlined"
             margin="normal"
             required
@@ -79,6 +95,8 @@ export default function Register() {
           />
           <TextField
             onChange={onChange}
+            error={helperText.passwordHelper}
+            helperText={helperText.passwordHelper}
             variant="outlined"
             margin="normal"
             required
