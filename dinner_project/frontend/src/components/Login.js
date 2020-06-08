@@ -57,7 +57,6 @@ export default function Login() {
             localStorage.setItem('refresh_token', response.data.refresh);
 
             console.log(response);
-            console.log(localStorage);
             console.log(axiosInstance.defaults.headers);
         })
         .catch(function (error) {

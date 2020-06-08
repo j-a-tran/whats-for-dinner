@@ -8,6 +8,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.views import APIView
 from rest_framework import status, permissions
+from rest_framework_simplejwt.tokens import RefreshToken
 
 import random
 
@@ -139,3 +140,15 @@ def create_user(request):
         serializer.save()
         return Response(status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+@permission_classes([permissions.AllowAny])
+@authentication_classes([])
+def logout_and_blacklist_token(request):
+    try:
+        refresh_token = request.data['refresh_token']
+        token = RefreshToken(refresh_token)
+        token.blacklist()
+        return Response(status=status.HTTP_205_RESET_CONTENT)
+    except Exception as e:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
