@@ -13,7 +13,7 @@ urlpatterns = [
     path('api/recipes/', views.recipes_list),
     path('api/recipes/<int:pk>', views.recipes_detail),
     path('api/ingredients/', views.ingredients_list),
-    path('api/token/obtain/', jwt_views.TokenObtainPairView.as_view(), name='token-create'),
+    path('api/token/obtain/', views.CustomObtainTokenPairView.as_view(), name='token-create'),
     path('api/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
     path('api/user/create/', views.create_user, name='user-create'),
     path('api/token/blacklist/', views.logout_and_blacklist_token, name='blacklist')

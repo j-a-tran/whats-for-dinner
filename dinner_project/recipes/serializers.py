@@ -3,6 +3,16 @@ from .models import Recipe, Ingredient
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django.contrib.auth.models import User
 
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+
+    @classmethod
+    def get_token(cls, user):
+        token = super(CustomTokenObtainPairSerializer, cls).get_token(user)
+
+        token['username'] = user.username
+        
+        return token
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -18,6 +28,8 @@ class UserSerializer(serializers.ModelSerializer):
         instance.save()
 
         return instance
+
+
 
 class IngredientSerializer(serializers.ModelSerializer):
     
@@ -40,11 +52,10 @@ class RecipeSerializer(serializers.ModelSerializer):
         ingredients_data = validated_data.pop('ingredients')
         recipe = Recipe.objects.create(**validated_data)
         for ingredient in ingredients_data:
-            ingredient, created = Ingredient.objects.get_or_create(name=ingredient['name']) ##this works for getting or adding an ingredient
+            ingredient, created = Ingredient.objects.get_or_create(name=ingredient['name']) 
             recipe.ingredients.add(ingredient)
         return recipe
 
-    ##editing name and desc only works if you also edit ingredients
     def update(self, instance, validated_data):
         ingredients_data = validated_data.pop('ingredients')
         instance.name = validated_data.get('name', instance.name)
