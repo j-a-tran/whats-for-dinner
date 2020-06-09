@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Recipe, Ingredient
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.authentication import JWTAuthentication
 from django.contrib.auth.models import User
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -33,7 +34,8 @@ class UserSerializer(serializers.ModelSerializer):
 
 class IngredientSerializer(serializers.ModelSerializer):
     
-    user = UserSerializer(many=False)
+    ##user = UserSerializer(many=False)
+    user = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
 
     class Meta:
         model = Ingredient
@@ -42,18 +44,30 @@ class IngredientSerializer(serializers.ModelSerializer):
 class RecipeSerializer(serializers.ModelSerializer):
 
     ingredients = IngredientSerializer(many=True)
-    user = UserSerializer(many=False)
+    ##user = UserSerializer(many=False)
+    user = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
 
     class Meta:
         model = Recipe
         fields = ['pk', 'name', 'desc', 'ingredients','user']
     
     def create(self, validated_data):
+        print(validated_data)
+
         ingredients_data = validated_data.pop('ingredients')
+        token_data = validated_data.pop('token_data')
+        
+        print(validated_data)
         recipe = Recipe.objects.create(**validated_data)
         for ingredient in ingredients_data:
             ingredient, created = Ingredient.objects.get_or_create(name=ingredient['name']) 
             recipe.ingredients.add(ingredient)
+        
+        JWT = JWTAuthentication()
+        validated_token = JWT.get_validated_token(token_data)
+        u = JWT.get_user(validated_token)
+        u.recipe_set.add(recipe)
+        
         return recipe
 
     def update(self, instance, validated_data):

@@ -6,7 +6,7 @@ import ModalWindow from './ModalWindow';
 import Grid from '@material-ui/core/Grid';
 
 import axios from 'axios';
-import { API_URL } from '../constants/index';
+import { API_URL, axiosInstance } from '../constants/index';
 
 export default function NewForm(props) {
 
@@ -39,10 +39,12 @@ export default function NewForm(props) {
             pk: recipeData.pk,
             name: recipeData.name,
             desc: recipeData.desc,
-            ingredients: ingredients
+            ingredients: ingredients,
+            token: localStorage.getItem('access_token')
         }
+        console.log(payload);
 
-        axios.post(API_URL.concat("recipes/"), payload
+        axiosInstance.post(API_URL.concat("recipes/"), payload
         ).then(() => {
             props.resetState();
             props.handleClose();

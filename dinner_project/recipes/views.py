@@ -89,7 +89,7 @@ def recipes_list(request):
     elif request.method == 'POST':
         serializer = RecipeSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            serializer.save(token_data=request.data['token'])
             return Response(status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
