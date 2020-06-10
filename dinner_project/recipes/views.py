@@ -10,6 +10,8 @@ from rest_framework.views import APIView
 from rest_framework import status, permissions
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
+from django.contrib.auth.models import User
+
 
 import random
 
@@ -76,12 +78,18 @@ class RecipeDeleteView(DeleteView):
 def recipes_list(request):
     if request.method == 'GET':
 
+        ##test
+        user = User.objects.get(pk=1)
+        ##test
+
         query = request.GET.getlist('ingredients')
 
         if query:
-            data = Recipe.objects.filter(ingredients__in=query).distinct()
+        ##    data = Recipe.objects.filter(ingredients__in=query).distinct()
+            data = user.recipe_set.all().filter(ingredients__in=query).distinct()
         else:
-            data = Recipe.objects.all()
+        ##    data = Recipe.objects.all()
+            data = user.recipe_set.all()
 
         serializer  = RecipeSerializer(data, context={'request': request}, many=True)
 
