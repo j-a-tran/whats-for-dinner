@@ -26,17 +26,11 @@ export default function Nav() {
     return (
         <AppBar position='static'>
             <Toolbar>
-                <Button component={NavLink} to='/register' color='inherit'>
-                    Register
-                </Button>
-
-                <Button component={NavLink} to='/' color='inherit'>
-                    Home
-                </Button>
-                
                 {isAuthenticated ? (
-
                     <React.Fragment>
+                        <Button component={NavLink} to='/' color='inherit'>
+                            Home
+                        </Button>
                         <Button onClick={handleLogout} color='inherit'>Log Out</Button>
                         <Button color='inherit'>Hello, {currentUser}!</Button>  
                     </React.Fragment>
