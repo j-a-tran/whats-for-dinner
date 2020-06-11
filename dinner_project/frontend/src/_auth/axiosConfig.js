@@ -12,6 +12,7 @@ const axiosInstance = axios.create({
     }
 });
 
+/* DEBUG: commenting out for testing
 axiosInstance.interceptors.response.use(
     response => response,
     error => {
@@ -39,5 +40,6 @@ axiosInstance.interceptors.response.use(
       return Promise.reject(error);
   }
 );
+*/
 
 export { API_URL, axiosInstance};

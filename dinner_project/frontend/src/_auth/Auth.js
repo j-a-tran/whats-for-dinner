@@ -22,28 +22,16 @@ export default function Auth({ children }) {
     },[])
 
     const login = (username, password) => {
-        axiosInstance.post('/token/obtain/', {
-            username: username,
-            password: password
-        })
-        .then(function (response) {
-            axiosInstance.defaults.headers['Authorization'] = "JWT " + response.data.access;
-            localStorage.setItem('access_token', response.data.access);
-            localStorage.setItem('refresh_token', response.data.refresh);
-
-            console.log(response);
-            console.log(axiosInstance.defaults.headers);
-
-            setIsAuthenticated(true);
-
-            return response;
-        })
-        .catch(function(error) {
-            console.log(error);
-
-            setIsAuthenticated(false);
-            return error;
-        });
+        return axiosInstance.post('/token/obtain/', {
+                username: username,
+                password: password
+            })
+            .then(function (response) {
+                axiosInstance.defaults.headers['Authorization'] = "JWT " + response.data.access;
+                localStorage.setItem('access_token', response.data.access);
+                localStorage.setItem('refresh_token', response.data.refresh);
+                setIsAuthenticated(true);
+            })
     }
 
     const register = (username, password) => {
@@ -52,7 +40,7 @@ export default function Auth({ children }) {
             username: username,
             password: password
           });
-          
+
     }
 
     const logout = () => {

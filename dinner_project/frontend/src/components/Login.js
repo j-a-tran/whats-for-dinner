@@ -8,6 +8,10 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
+import { useHistory } from 'react-router-dom';
+
+import { AuthContext } from '../_auth/Auth';
+
 
 import axios from 'axios';
 import { API_URL, axiosInstance } from '../_auth/axiosConfig';
@@ -35,6 +39,10 @@ const useStyles = makeStyles((theme) => ({
 export default function Login() {
     const classes = useStyles();
 
+    const { login } = React.useContext(AuthContext);
+
+    let history = useHistory();
+
     const [userData, setUserData] = React.useState({
         username: '',
         password: ''
@@ -47,7 +55,7 @@ export default function Login() {
 
     const onChange = (event) => {
         userData[event.target.name] = event.target.value
-        
+
         setHelperText({
           usernameHelper: '',
           passwordHelper: ''
@@ -57,22 +65,26 @@ export default function Login() {
     const onSubmit = (event) => {
         event.preventDefault();
 
-        axiosInstance.post('/token/obtain/', {
-            username: userData.username,
-            password: userData.password
+        login(userData.username, userData.password)
+        .then(function(response) {
+          history.push('/');
         })
-        .then(function (response) {
-            
-            axiosInstance.defaults.headers['Authorization'] = "JWT " + response.data.access;
-            localStorage.setItem('access_token', response.data.access);
-            localStorage.setItem('refresh_token', response.data.refresh);
+        .catch(function(error) {
+          console.log(error.response);
 
-            console.log(response);
-            console.log(axiosInstance.defaults.headers);
+          if(error.response.data.detail) {
+            setHelperText({
+              usernameHelper: error.response.data.detail,
+              passwordHelper: error.response.data.detail
+            });
+          } else {
+            setHelperText({
+              usernameHelper: error.response.data.username,
+              passwordHelper: error.response.data.password
+            });
+          };
+          
         })
-        .catch(function (error) {
-            console.log(error);
-        });
     };
 
   return (
@@ -85,6 +97,8 @@ export default function Login() {
         <form className={classes.form} noValidate onSubmit={onSubmit}>
           <TextField
             onChange={onChange}
+            error={helperText.usernameHelper}
+            helperText={helperText.usernameHelper}
             variant="outlined"
             margin="normal"
             required
@@ -96,6 +110,8 @@ export default function Login() {
           />
           <TextField
             onChange={onChange}
+            error={helperText.passwordHelper}
+            helperText={helperText.passwordHelper}
             variant="outlined"
             margin="normal"
             required
