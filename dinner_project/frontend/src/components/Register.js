@@ -7,6 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import Auth, { AuthContext } from '../_auth/Auth';
 
 import axios from 'axios';
 import { API_URL, axiosInstance } from '../_auth/axiosConfig';
@@ -34,6 +35,8 @@ const useStyles = makeStyles((theme) => ({
 export default function Register() {
   const classes = useStyles();
 
+  const { register } = React.useContext(AuthContext);
+
   const [userData, setUserData] = React.useState({
         username: '',
         password: ''
@@ -56,10 +59,7 @@ export default function Register() {
   const onSubmit = (event) => {
       event.preventDefault();
 
-      axiosInstance.post('/user/create/', {
-        username: userData.username,
-        password: userData.password
-      })
+      register(userData.username, userData.password)
       .then(function (response) {
         console.log(response);
       })
@@ -69,7 +69,7 @@ export default function Register() {
           usernameHelper: error.response.data.username,
           passwordHelper: error.response.data.password
         });
-      })
+      });
   };
 
   return (

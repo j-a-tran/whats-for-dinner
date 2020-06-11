@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
+
 import axios from 'axios';
 import { API_URL, axiosInstance } from '../_auth/axiosConfig';
 
@@ -37,10 +38,20 @@ export default function Login() {
     const [userData, setUserData] = React.useState({
         username: '',
         password: ''
-    });  
+    });
+    
+    const [helperText, setHelperText] = React.useState({
+      usernameHelper: '',
+      passwordHelper: ''
+    })
 
     const onChange = (event) => {
         userData[event.target.name] = event.target.value
+        
+        setHelperText({
+          usernameHelper: '',
+          passwordHelper: ''
+        });
     };
 
     const onSubmit = (event) => {
