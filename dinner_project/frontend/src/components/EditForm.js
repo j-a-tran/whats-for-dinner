@@ -6,7 +6,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import Grid from '@material-ui/core/Grid';
 
 import axios from 'axios';
-import { API_URL } from '../constants/index';
+import { API_URL, axiosInstance } from '../_auth/axiosConfig';
 
 export default function DeleteForm(props) {
     
@@ -46,7 +46,7 @@ export default function DeleteForm(props) {
 
         console.log(payload);
 
-        axios.put(API_URL + "recipes/" + recipe.pk, payload).then( () => {
+        axiosInstance.put(API_URL + "recipes/" + recipe.pk, payload).then( () => {
             props.resetState();
             props.handleClose();
         })

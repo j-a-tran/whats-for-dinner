@@ -9,7 +9,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
 import axios from 'axios';
-import { API_URL, axiosInstance } from '../constants/index';
+import { API_URL, axiosInstance } from '../_auth/axiosConfig';
 
 const useStyles = makeStyles((theme) => ({
   paper: {

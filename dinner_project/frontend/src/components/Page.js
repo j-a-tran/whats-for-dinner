@@ -16,7 +16,7 @@ import ModalRouter from './ModalRouter';
 import axios from 'axios';
 import qs from 'qs';
 
-import { API_URL, axiosInstance } from '../constants/index';
+import { API_URL, axiosInstance } from '../_auth/axiosConfig';
 
 export default function Page () {
 

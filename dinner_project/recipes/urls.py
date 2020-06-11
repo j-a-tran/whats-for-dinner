@@ -14,7 +14,8 @@ urlpatterns = [
     path('api/recipes/<int:pk>', views.recipes_detail),
     path('api/ingredients/', views.ingredients_list),
     path('api/token/obtain/', views.CustomObtainTokenPairView.as_view(), name='token-create'),
-    path('api/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token-refresh'),
+    path('api/token/verify/', jwt_views.TokenVerifyView.as_view(), name='token-verify'),
     path('api/user/create/', views.create_user, name='user-create'),
     path('api/token/blacklist/', views.logout_and_blacklist_token, name='blacklist')
 ]

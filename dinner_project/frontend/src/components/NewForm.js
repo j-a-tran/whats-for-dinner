@@ -6,7 +6,7 @@ import ModalWindow from './ModalWindow';
 import Grid from '@material-ui/core/Grid';
 
 import axios from 'axios';
-import { API_URL, axiosInstance } from '../constants/index';
+import { API_URL, axiosInstance } from '../_auth/axiosConfig';
 
 export default function NewForm(props) {
 
