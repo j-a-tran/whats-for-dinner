@@ -14,7 +14,7 @@ export default function Nav() {
     React.useEffect(() => {
         setCurrentUser(getUsername());
         console.log(isAuthenticated);
-    }, [isAuthenticated]);
+    }, [isAuthenticated, getUsername]);
 
     let history = useHistory();
 
