@@ -11,6 +11,7 @@ class IngredientsSearch extends Component {
 
             <Autocomplete 
                 onChange ={this.props.getSearchParams}
+                filterSelectedOptions={true}
                 fullWidth
                 multiple
                 id="ingredients-search"

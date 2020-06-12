@@ -82,6 +82,7 @@ export default function NewForm(props) {
                             <Grid item xs={12}>
                                 <Autocomplete 
                                 multiple
+                                filterSelectedOptions={true}
                                 id="ingredients"
                                 options={props.ingredients.map((option) => option.name)}
                                 renderInput={(params) => (

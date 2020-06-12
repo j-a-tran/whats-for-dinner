@@ -8,6 +8,9 @@ class Ingredient(models.Model):
     name = models.CharField(max_length=60)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
+    class Meta:
+        ordering = ['name']
+
     def __str__(self):
         return self.name
 

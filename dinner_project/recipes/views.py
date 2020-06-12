@@ -50,8 +50,6 @@ class RecipeSearchResults(ListView):
 
         return object_list
 
-        #q = Ingredient.objects.get(pk=query)
-        #object_list = q.recipe_set.all()
 
 class RecipeDetailView(DetailView):
     model = Recipe
@@ -107,6 +105,11 @@ def recipes_list(request):
 
 @api_view(['GET','PUT', 'DELETE'])
 def recipes_detail(request, pk):
+    JWT = JWTAuthentication()
+    request_data = JWT.authenticate(request) ##returns a tuple with user, token
+    print(request_data[0])
+    user = request_data[0]
+
     try:
         recipe = Recipe.objects.get(pk=pk)
     except Recipe.DoesNotExist:
@@ -119,7 +122,7 @@ def recipes_detail(request, pk):
     elif request.method == 'PUT':
         serializer = RecipeSerializer(recipe, data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            serializer.save(user=user)
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -129,8 +132,14 @@ def recipes_detail(request, pk):
 
 @api_view(['GET','POST'])
 def ingredients_list(request):
+
+    JWT = JWTAuthentication()
+    request_data = JWT.authenticate(request) ##returns a tuple with user, token
+    print(request_data[0])
+    user = request_data[0]
+
     if request.method == 'GET':
-        data = Ingredient.objects.all()
+        data = user.ingredient_set.all()
 
         serializer  = IngredientSerializer(data, context={'request': request}, many=True)
 

@@ -30,8 +30,6 @@ class UserSerializer(serializers.ModelSerializer):
 
         return instance
 
-
-
 class IngredientSerializer(serializers.ModelSerializer):
     
     ##user = UserSerializer(many=False)
@@ -52,15 +50,13 @@ class RecipeSerializer(serializers.ModelSerializer):
         fields = ['pk', 'name', 'desc', 'ingredients','user']
     
     def create(self, validated_data):
-        print(validated_data)
-
         ingredients_data = validated_data.pop('ingredients')
         u = validated_data.pop('user')
         
         print(validated_data)
         recipe = Recipe.objects.create(**validated_data)
         for ingredient in ingredients_data:
-            ingredient, created = Ingredient.objects.get_or_create(name=ingredient['name']) 
+            ingredient, created = Ingredient.objects.get_or_create(name=ingredient['name'], user=u) 
             recipe.ingredients.add(ingredient)
         
         u.recipe_set.add(recipe)
@@ -68,13 +64,15 @@ class RecipeSerializer(serializers.ModelSerializer):
         return recipe
 
     def update(self, instance, validated_data):
+        u = validated_data.pop('user')
         ingredients_data = validated_data.pop('ingredients')
+        
         instance.name = validated_data.get('name', instance.name)
         instance.desc = validated_data.get('desc', instance.desc)
         instance.ingredients.clear()
         instance.save()
         for ingredient in ingredients_data:
-            ingredient, created = Ingredient.objects.get_or_create(name=ingredient['name'])
+            ingredient, created = Ingredient.objects.get_or_create(name=ingredient['name'], user=u)
             instance.ingredients.add(ingredient)
         
         return instance

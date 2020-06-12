@@ -137,7 +137,7 @@ export default function Page () {
                                 ) : ( 
                                 
                                     <React.Fragment>
-                                        <Button variant='contained' onClick={ () => {
+                                        <Button variant='contained' color='primary' onClick={ () => {
                                             getRandom();
                                             getModal('edit');
                                             handleOpen();

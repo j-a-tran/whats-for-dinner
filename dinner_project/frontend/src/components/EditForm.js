@@ -79,6 +79,7 @@ export default function EditForm(props) {
                             <Grid item xs={12}>
                                 <Autocomplete 
                                     multiple
+                                    filterSelectedOptions={true}
                                     id="ingredients"
                                     options={props.ingredients.map((option) => option.name)}
                                     defaultValue={recipe.ingredients.map((option) => option.name)}
