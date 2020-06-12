@@ -55,7 +55,7 @@ class RecipeSerializer(serializers.ModelSerializer):
         print(validated_data)
 
         ingredients_data = validated_data.pop('ingredients')
-        token_data = validated_data.pop('token_data')
+        u = validated_data.pop('user')
         
         print(validated_data)
         recipe = Recipe.objects.create(**validated_data)
@@ -63,9 +63,6 @@ class RecipeSerializer(serializers.ModelSerializer):
             ingredient, created = Ingredient.objects.get_or_create(name=ingredient['name']) 
             recipe.ingredients.add(ingredient)
         
-        JWT = JWTAuthentication()
-        validated_token = JWT.get_validated_token(token_data)
-        u = JWT.get_user(validated_token)
         u.recipe_set.add(recipe)
         
         return recipe

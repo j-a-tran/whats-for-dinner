@@ -77,12 +77,12 @@ class RecipeDeleteView(DeleteView):
 
 @api_view(['GET','POST'])
 def recipes_list(request):
-    if request.method == 'GET':
+    JWT = JWTAuthentication()
+    request_data = JWT.authenticate(request) ##returns a tuple with user, token
+    print(request_data[0])
+    user = request_data[0] ##extracts user from the tuple
 
-        JWT = JWTAuthentication()
-        request_data = JWT.authenticate(request) ##returns a tuple with user, token
-        print(request_data[0])
-        user = request_data[0] ##extracts user from the tuple
+    if request.method == 'GET':
 
         query = request.GET.getlist('ingredients')
 
@@ -99,7 +99,7 @@ def recipes_list(request):
     elif request.method == 'POST':
         serializer = RecipeSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save(token_data=request.data['token'])
+            serializer.save(user=user)
             return Response(status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

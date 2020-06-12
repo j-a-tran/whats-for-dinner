@@ -39,7 +39,6 @@ export default function NewForm(props) {
             name: recipeData.name,
             desc: recipeData.desc,
             ingredients: ingredients,
-            token: localStorage.getItem('access_token')
         }
         console.log(payload);
 
