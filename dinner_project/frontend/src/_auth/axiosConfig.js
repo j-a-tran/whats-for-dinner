@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { Auth } from './Auth';
 
 const API_URL = "http://127.0.0.1:8000/api/";
 
@@ -26,7 +25,7 @@ axiosInstance.interceptors.response.use(
             return Promise.reject(error);
         }
 
-        if (originalRequest.url == (API_URL + 'token/refresh/')) {
+        if (originalRequest.url === (API_URL + 'token/refresh/')) {
             localStorage.clear();
             window.location.href = '/login';
             console.log(error);

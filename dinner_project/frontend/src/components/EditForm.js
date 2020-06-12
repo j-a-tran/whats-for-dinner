@@ -4,11 +4,19 @@ import ModalWindow from './ModalWindow';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import Grid from '@material-ui/core/Grid';
+import { makeStyles } from '@material-ui/core/styles';
 
 import axios from 'axios';
 import { API_URL, axiosInstance } from '../_auth/axiosConfig';
+import { LinearProgress } from '@material-ui/core';
 
-export default function DeleteForm(props) {
+const useStyles = makeStyles((theme) => ({
+    p: {
+        whiteSpace: 'pre-line'
+    }
+}));
+
+export default function EditForm(props) {
     
     const recipe = props.recipe;
 
@@ -67,7 +75,7 @@ export default function DeleteForm(props) {
                                 <TextField required fullWidth name="name" label="Name" defaultValue={recipe.name} onChange={onChange} />
                             </Grid>
                             <Grid item xs={12}>
-                                <TextField fullWidth name="desc" label="Description" multiline rows={4} defaultValue={recipe.desc} onChange={onChange} />
+                                <TextField fullWidth name="desc" label="Description" multiline rows={6} defaultValue={recipe.desc} onChange={onChange} />
                             </Grid>
                     
                             <Grid item xs={12}>

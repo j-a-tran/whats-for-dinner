@@ -12,13 +12,36 @@ import Button from '@material-ui/core/Button';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import ModalRouter from './ModalRouter';
+import { makeStyles } from '@material-ui/core/styles';
 
 import axios from 'axios';
 import qs from 'qs';
 
 import { API_URL, axiosInstance } from '../_auth/axiosConfig';
 
+const useStyles = makeStyles((theme) => ({
+    fab: {
+        position: 'absolute',
+        bottom: theme.spacing(3),
+        right: theme.spacing(3),
+    },
+    paper: {
+        marginTop: theme.spacing(6),
+        alignItems: 'center',
+        flexDirection: 'column',
+    },
+    chip: {
+        marginTop: theme.spacing(1),
+        marginRight: theme.spacing(1)
+    },
+    recipeCards: {
+        height: '100%'
+    }
+}));
+
 export default function Page () {
+
+    const classes = useStyles();
 
     const [recipes, setRecipes] = React.useState([]);
     const [ingredients, setIngredients] = React.useState([]);
@@ -83,66 +106,71 @@ export default function Page () {
 
     return (
         <React.Fragment>
-            <Fab color='primary' onClick={ () => {
+            <Fab color='primary' className={classes.fab} size='large' onClick={ () => {
                 getModal('new');
                 handleOpen();
                 }}>
                 <AddIcon />
             </Fab>
-                <Container> 
-                        <Grid container spacing={3}>
-                        
-                        {!recipes || recipes.length <=0 ? (
-                            <Button disabled>Randomize Me!</Button>
-                        ) : ( 
-                        
-                            <React.Fragment>
-                                 <Button variant='contained' onClick={ () => {
-                                     getRandom();
-                                     getModal('edit');
-                                     handleOpen();
-                                    }}>Randomize Me!</Button>
-                            </React.Fragment>
-                        )}
+                <Container component='main' maxWidth='lg' className={classes.paper}> 
+                        <Grid container justify='center' spacing={3}>
+                            
+                            <Grid item>
+                                {!recipes || recipes.length <=0 ? (
+                                    <Button disabled>Pick Me a Recipe!</Button>
+                                ) : ( 
+                                
+                                    <React.Fragment>
+                                        <Button variant='contained' onClick={ () => {
+                                            getRandom();
+                                            getModal('edit');
+                                            handleOpen();
+                                            }}>Pick Me a Recipe!</Button>
+                                    </React.Fragment>
+                                )}
+                            </Grid>
 
-                        <Grid item xs={9} md={9} lg ={12}>
-                            <IngredientsSearch ingredients={ingredients} resetState={resetState} getSearchParams={getSearchParams}/> 
                         </Grid>
 
-                        {!recipes || recipes.length <=0 ? (
-                            <Grid item>
-                                <Typography>No recipes!</Typography>
-                            </Grid> 
-                        ) : (recipes.map(recipe => (
-                            <Grid item xs={9} md={6} lg={6} spacing={2}>
-                                <Card key={recipe.pk} variant="outlined">
-                                    <CardActionArea>
-                                        <CardContent>
-                                            <Typography gutterBottom variant="h5" component="h2">{recipe.name}</Typography>
-                                            
-                                            <Typography variant="body2" color="textSecondary" component="p">{recipe.desc}</Typography>
-                                            {recipe.ingredients.map(ingredient => (
-                                            <Chip label={ingredient.name} size="small" />
-                                            ))}
-                                        </CardContent>
-                                    </CardActionArea>
-                                    <CardActions>
-                                        <Button color='primary' onClick={ () => {
-                                            getSelected(recipe);
-                                            handleOpen();
-                                            getModal('edit');
-                                        }} >Edit</Button>
-                                        <Button color='primary' onClick={ () => {
-                                            getSelected(recipe);
-                                            handleOpen();
-                                            getModal('delete');
-                                        }}>Delete</Button>
-                                    </CardActions>
-                                </Card>
-                            </Grid>
-                        )))}
+                        <Grid container spacing={3}>
 
-                    </Grid>
+                            <Grid item xs={9} md={9} lg ={12}>
+                                <IngredientsSearch ingredients={ingredients} resetState={resetState} getSearchParams={getSearchParams}/> 
+                            </Grid>
+
+                            {!recipes || recipes.length <=0 ? (
+                                <Grid item>
+                                    <Typography>No recipes!</Typography>
+                                </Grid> 
+                            ) : (recipes.map(recipe => (
+                                <Grid item xs={9} md={6} lg={6} >
+                                    <Card key={recipe.pk} variant="outlined" className={classes.recipeCards}>
+                                        <CardActionArea>
+                                            <CardContent>
+                                                <Typography gutterBottom variant="h5" component="h2">{recipe.name}</Typography>
+                                                
+                                                {recipe.ingredients.map(ingredient => (
+                                                <Chip label={ingredient.name} size="small" className={classes.chip} />
+                                                ))}
+                                            </CardContent>
+                                        </CardActionArea>
+                                        <CardActions>
+                                            <Button color='primary' onClick={ () => {
+                                                getSelected(recipe);
+                                                handleOpen();
+                                                getModal('edit');
+                                            }} >Detail</Button>
+                                            <Button color='primary' onClick={ () => {
+                                                getSelected(recipe);
+                                                handleOpen();
+                                                getModal('delete');
+                                            }}>Delete</Button>
+                                        </CardActions>
+                                    </Card>
+                                </Grid>
+                            )))}
+                        </Grid>
+                    
                 </Container>
                 <ModalRouter currentModal={currentModal} isOpen={isOpen} handleClose={handleClose} recipe={selectedRec} ingredients={ingredients} resetState={resetState}/>
         </React.Fragment>
