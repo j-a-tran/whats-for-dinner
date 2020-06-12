@@ -6,20 +6,7 @@ export const AuthContext = React.createContext({})
 
 export default function Auth({ children }) {
 
-    const [isAuthenticated, setIsAuthenticated] = React.useState(false);
-
-    const checkAuth = () => {
-        if (!!localStorage.getItem('refresh_token')) {
-            setIsAuthenticated(true);
-        }
-        else {
-            setIsAuthenticated(false);
-        }
-    }
-
-    React.useEffect(() => {
-        checkAuth();
-    },[])
+    const [isAuthenticated, setIsAuthenticated] = React.useState(!!localStorage.getItem('refresh_token'));
 
     const login = (username, password) => {
         return axiosInstance.post('/token/obtain/', {
@@ -65,10 +52,9 @@ export default function Auth({ children }) {
 
     const getUsername = () => { 
         const refreshToken = localStorage.getItem('refresh_token');
-        if (!!refreshToken) {
-            const username = JSON.parse(atob(refreshToken.split('.')[1]))['username'];
-            return username;
-        } else {
+        try {
+            return JSON.parse(atob(refreshToken.split('.')[1]))['username'];
+        } catch (error) {
             return '';
         }
     }
