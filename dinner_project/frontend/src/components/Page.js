@@ -1,6 +1,7 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import IngredientsSearch from './IngredientsSearch';
+import ExcludeSearch from './ExcludeSearch';
 import Container from '@material-ui/core/Container';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -47,6 +48,7 @@ export default function Page () {
     const [recipes, setRecipes] = React.useState([]);
     const [ingredients, setIngredients] = React.useState([]);
     const [searchParams, setSearchParams] = React.useState([]);
+    const [excludeParams, setExcludeParams] = React.useState([]);
     const [selectedRec, setSelectedRec] = React.useState({});
     const [isOpen, setOpen] = React.useState(false);
     const [currentModal, setCurrentModal] = React.useState(null);
@@ -60,14 +62,16 @@ export default function Page () {
 
         axiosInstance.get(API_URL.concat("recipes/"),{
             params: {
-                ingredients: searchParams
+                ingredients: searchParams,
+                exclude: excludeParams
+
             },
             paramsSerializer: params => {
                 return qs.stringify(params, {arrayFormat: 'repeat'})
             }
         }).then(res => setRecipes(res.data));
 
-    }, [searchParams])
+    }, [searchParams, excludeParams])
 
     const handleOpen = () => {
         setOpen(true);
@@ -98,6 +102,17 @@ export default function Page () {
         });
 
         setSearchParams(formattedParams);
+    };
+
+    const getExcludeParams = (event, value) => {
+        const formattedParams = [];
+        
+        value.map(item => {
+            formattedParams.push(item.pk);
+            return formattedParams;
+        });
+
+        setExcludeParams(formattedParams);
     };
 
     const resetState = () => {
@@ -137,6 +152,11 @@ export default function Page () {
 
                             <Grid item xs={12} md={12} lg ={12}>
                                 <IngredientsSearch ingredients={ingredients} resetState={resetState} getSearchParams={getSearchParams}/> 
+                            </Grid>
+
+                            
+                            <Grid item xs={12} md={12} lg ={12}>
+                                <ExcludeSearch ingredients={ingredients} resetState={resetState} getExcludeParams={getExcludeParams}/> 
                             </Grid>
 
                             {!recipes || recipes.length <=0 ? (

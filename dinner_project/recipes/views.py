@@ -83,16 +83,18 @@ def recipes_list(request):
     user = request_data[0] ##extracts user from the tuple
 
     if request.method == 'GET':
+        data = user.recipe_set.all()
 
         query = request.GET.getlist('ingredients')
+        exclusions = request.GET.getlist('exclude')
 
         if query:
         ##  data = Recipe.objects.filter(ingredients__in=query).distinct()
             data = user.recipe_set.all().filter(ingredients__in=query).distinct()
-        else:
-        ##  data = Recipe.objects.all()
-            data = user.recipe_set.all()
 
+        if exclusions:
+            data = data.exclude(ingredients__in=exclusions)
+            
         serializer  = RecipeSerializer(data, context={'request': request}, many=True)
 
         return Response(serializer.data)
