@@ -1,6 +1,5 @@
 import React from 'react';
-import axios from 'axios';
-import { API_URL, axiosInstance } from '../_auth/axiosConfig';
+import { axiosInstance } from '../_auth/axiosConfig';
 
 export const AuthContext = React.createContext({})
 

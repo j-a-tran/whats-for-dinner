@@ -11,10 +11,6 @@ import { useHistory } from 'react-router-dom';
 
 import { AuthContext } from '../_auth/Auth';
 
-
-import axios from 'axios';
-import { API_URL, axiosInstance } from '../_auth/axiosConfig';
-
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),

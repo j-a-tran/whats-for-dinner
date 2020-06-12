@@ -8,7 +8,6 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Auth from './_auth/Auth';
 
 import { Switch, Route } from 'react-router-dom';
-import { axiosInstance } from './_auth/axiosConfig';
 
 function App() {
   

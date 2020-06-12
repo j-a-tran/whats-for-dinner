@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Redirect, Component } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
 import { AuthContext } from '../_auth/Auth';
 
 export default function ProtectedRoute ({component: Component, ...rest}) {

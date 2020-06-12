@@ -134,7 +134,7 @@ export default function Page () {
 
                         <Grid container spacing={3}>
 
-                            <Grid item xs={9} md={9} lg ={12}>
+                            <Grid item xs={12} md={12} lg ={12}>
                                 <IngredientsSearch ingredients={ingredients} resetState={resetState} getSearchParams={getSearchParams}/> 
                             </Grid>
 
@@ -143,7 +143,7 @@ export default function Page () {
                                     <Typography>No recipes!</Typography>
                                 </Grid> 
                             ) : (recipes.map(recipe => (
-                                <Grid item xs={9} md={6} lg={6} >
+                                <Grid item xs={12} md={6} lg={6} >
                                     <Card key={recipe.pk} variant="outlined" className={classes.recipeCards}>
                                         <CardActionArea>
                                             <CardContent>
