@@ -6,9 +6,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 
-import axios from 'axios';
 import { API_URL, axiosInstance } from '../_auth/axiosConfig';
-import { LinearProgress } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
     p: {

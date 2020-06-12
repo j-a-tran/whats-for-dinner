@@ -12,7 +12,6 @@ const axiosInstance = axios.create({
     }
 });
 
-
 axiosInstance.interceptors.response.use(
     function (response) {
         //This triggers for anything where status code is within 2xx
@@ -32,7 +31,7 @@ axiosInstance.interceptors.response.use(
             return Promise.reject(error);
         }
 
-        return axiosInstance.post(API_URL + 'token/refresh/', {
+        return axios.post(API_URL + 'token/refresh/', {
             refresh: localStorage.getItem('refresh_token')
         })
         .then(function (response) {
