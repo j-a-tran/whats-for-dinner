@@ -15,9 +15,16 @@ export default function NewForm(props) {
         name: '',
         desc: ''
     });
+    const [helperText, setHelperText] = React.useState({
+        nameHelper: ''
+    });
 
     const onChange = (event) => {
         recipeData[event.target.name] = event.target.value
+
+        setHelperText({
+            nameHelper: ''
+        });
     };
 
     const onIngredientsChange = (event, value) => {
@@ -47,6 +54,10 @@ export default function NewForm(props) {
             props.resetState();
             props.handleClose();
         })
+        .catch(function (error) {
+            console.log(error.response);
+            setHelperText({nameHelper: error.response.data.name})
+        })
     };
 
     const actions = [
@@ -60,7 +71,7 @@ export default function NewForm(props) {
                 <form noValidate autoComplete='off' onSubmit={createRecipe} id="recipeForm">
                         <Grid container spacing={2}>
                             <Grid item xs={12}>
-                                <TextField required fullWidth name="name" label="Name" onChange={onChange} />
+                                <TextField required error={helperText.nameHelper} helperText={helperText.nameHelper} fullWidth name="name" label="Name" onChange={onChange} />
                             </Grid>
 
                             <Grid item xs={12}>
