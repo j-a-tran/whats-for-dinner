@@ -164,7 +164,7 @@ export default function Page () {
                                     <Typography>No recipes!</Typography>
                                 </Grid> 
                             ) : (recipes.map(recipe => (
-                                <Grid item xs={12} md={6} lg={6} >
+                                <Grid item xs={12} md={6} lg={4} >
                                     <Card key={recipe.pk} variant="outlined" className={classes.recipeCards}>
                                         <CardActionArea>
                                             <CardContent>
