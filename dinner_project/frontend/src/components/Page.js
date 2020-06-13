@@ -53,12 +53,19 @@ export default function Page () {
     const [currentModal, setCurrentModal] = React.useState(null);
 
     React.useEffect(() =>  {
-        axiosInstance.get(API_URL.concat('recipes/')).then(res => setRecipes(res.data));
-        axiosInstance.get(API_URL.concat('ingredients/')).then(res => setIngredients(res.data));
-    }, []);
+        getRecipes();
+        getIngredients();
+    }, [searchParams, excludeParams]);
 
-    React.useEffect(() => {
+    const handleOpen = () => {
+        setOpen(true);
+    };
 
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const getRecipes = () => {
         axiosInstance.get(API_URL.concat("recipes/"),{
             params: {
                 ingredients: searchParams,
@@ -68,15 +75,10 @@ export default function Page () {
                 return qs.stringify(params, {arrayFormat: 'repeat'})
             }
         }).then(res => setRecipes(res.data));
-
-    }, [searchParams, excludeParams])
-
-    const handleOpen = () => {
-        setOpen(true);
     };
 
-    const handleClose = () => {
-        setOpen(false);
+    const getIngredients = () => {
+        axiosInstance.get(API_URL.concat('ingredients/')).then(res => setIngredients(res.data));
     };
 
     const getSelected = (recipe) => {
@@ -114,17 +116,8 @@ export default function Page () {
     };
 
     const resetState = () => {
-        axiosInstance.get(API_URL.concat("recipes/"), {
-            params: {
-                ingredients: searchParams,
-                exclude: excludeParams
-            },
-            paramsSerializer: params => {
-                return qs.stringify(params, {arrayFormat:'repeat'})
-            }
-        }).then(res => setRecipes(res.data));
-
-        axiosInstance.get(API_URL.concat('ingredients/')).then(res => setIngredients(res.data));  
+        getRecipes();
+        getIngredients();
     };
 
     return (
