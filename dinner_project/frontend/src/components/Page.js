@@ -150,12 +150,12 @@ export default function Page () {
 
                         <Grid container spacing={3}>
 
-                            <Grid item xs={12} md={12} lg ={12}>
+                            <Grid item xs={12} md={6} lg ={6}>
                                 <IngredientsSearch ingredients={ingredients} resetState={resetState} getSearchParams={getSearchParams}/> 
                             </Grid>
 
                             
-                            <Grid item xs={12} md={12} lg ={12}>
+                            <Grid item xs={12} md={6} lg ={6}>
                                 <ExcludeSearch ingredients={ingredients} resetState={resetState} getExcludeParams={getExcludeParams}/> 
                             </Grid>
 
