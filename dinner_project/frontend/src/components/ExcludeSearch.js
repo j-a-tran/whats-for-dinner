@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
-class IngredientsSearch extends Component {
+class ExcludeSearch extends Component {
     render() {
 
         const ingredients = this.props.ingredients;
@@ -10,18 +10,19 @@ class IngredientsSearch extends Component {
         return (
 
             <Autocomplete 
-                onChange ={this.props.getSearchParams}
-                filterSelectedOptions={true}
+                onChange ={this.props.getExcludeParams}
                 fullWidth
+                filterSelectedOptions = {true}
                 multiple
-                id="ingredients-search"
+                id='exclude-search'
+                name='exclude-search'
                 options={ingredients}
                 getOptionLabel={(option) => option.name}
                 renderInput={(params) => (
                     <TextField
                       {...params}
                       variant="standard"
-                      label="I'm in the mood for any of..."
+                      label="I don't have..."
                       placeholder="Select ingredients"
                     />
                 )}
@@ -30,4 +31,4 @@ class IngredientsSearch extends Component {
     }
 }
 
-export default IngredientsSearch;
+export default ExcludeSearch;

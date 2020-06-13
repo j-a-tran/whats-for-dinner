@@ -5,8 +5,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import ModalWindow from './ModalWindow';
 import Grid from '@material-ui/core/Grid';
 
-import axios from 'axios';
-import { API_URL } from '../constants/index';
+import { API_URL, axiosInstance } from '../_auth/axiosConfig';
 
 export default function NewForm(props) {
 
@@ -16,9 +15,16 @@ export default function NewForm(props) {
         name: '',
         desc: ''
     });
+    const [helperText, setHelperText] = React.useState({
+        nameHelper: ''
+    });
 
     const onChange = (event) => {
         recipeData[event.target.name] = event.target.value
+
+        setHelperText({
+            nameHelper: ''
+        });
     };
 
     const onIngredientsChange = (event, value) => {
@@ -39,13 +45,18 @@ export default function NewForm(props) {
             pk: recipeData.pk,
             name: recipeData.name,
             desc: recipeData.desc,
-            ingredients: ingredients
+            ingredients: ingredients,
         }
+        console.log(payload);
 
-        axios.post(API_URL.concat("recipes/"), payload
+        axiosInstance.post(API_URL.concat("recipes/"), payload
         ).then(() => {
             props.resetState();
             props.handleClose();
+        })
+        .catch(function (error) {
+            console.log(error.response);
+            setHelperText({nameHelper: error.response.data.name})
         })
     };
 
@@ -60,7 +71,7 @@ export default function NewForm(props) {
                 <form noValidate autoComplete='off' onSubmit={createRecipe} id="recipeForm">
                         <Grid container spacing={2}>
                             <Grid item xs={12}>
-                                <TextField required fullWidth name="name" label="Name" onChange={onChange} />
+                                <TextField required error={helperText.nameHelper} helperText={helperText.nameHelper} fullWidth name="name" label="Name" onChange={onChange} />
                             </Grid>
 
                             <Grid item xs={12}>
@@ -71,6 +82,7 @@ export default function NewForm(props) {
                             <Grid item xs={12}>
                                 <Autocomplete 
                                 multiple
+                                filterSelectedOptions={true}
                                 id="ingredients"
                                 options={props.ingredients.map((option) => option.name)}
                                 renderInput={(params) => (

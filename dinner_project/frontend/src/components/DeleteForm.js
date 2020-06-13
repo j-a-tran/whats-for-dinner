@@ -3,14 +3,14 @@ import Button from '@material-ui/core/Button';
 import ModalWindow from './ModalWindow';
 
 import axios from 'axios';
-import { API_URL } from '../constants/index';
+import { API_URL, axiosInstance } from '../_auth/axiosConfig';
 
 export default function DeleteForm(props) {
     
     const recipe = props.recipe;
 
     const deleteRecipe = () => {
-        axios.delete(API_URL + "recipes/" + recipe.pk).then( () => {
+        axiosInstance.delete(API_URL + "recipes/" + recipe.pk).then( () => {
             props.resetState();
             props.handleClose();
         })
