@@ -1,5 +1,4 @@
 django
-django-crispy-forms
 djangorestframework
 django-cors-headers
 djangorestframework-simplejwt

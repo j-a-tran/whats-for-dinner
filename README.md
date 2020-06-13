@@ -1,6 +1,6 @@
 # 'What's for Dinner?'
 
-Personal project to set up web app allowing users to add recipes and get randomized suggestions based on available ingredients.
+Personal project to set up web app allowing users to add recipes and get randomized suggestions based on available ingredients. Django backend and React frontend.
 
 ## Why this Project?
 
@@ -9,6 +9,6 @@ Have you ever realized you're hungry but that you have no idea what to make? **W
 ## Description
 
 Core Functionality:
-* User can add, edit, and delete recipes.
+* User can add, edit, and delete recipes. Recipes include a name, description, and associated list of ingredients.
 * User can filter recipes list by ingredient(s).
 * User can select "Randomize" to get a random recipe suggestion matching their ingredient filter criteria.
