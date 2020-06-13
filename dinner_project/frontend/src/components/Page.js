@@ -15,7 +15,6 @@ import AddIcon from '@material-ui/icons/Add';
 import ModalRouter from './ModalRouter';
 import { makeStyles } from '@material-ui/core/styles';
 
-import axios from 'axios';
 import qs from 'qs';
 
 import { API_URL, axiosInstance } from '../_auth/axiosConfig';
@@ -54,7 +53,7 @@ export default function Page () {
     const [currentModal, setCurrentModal] = React.useState(null);
 
     React.useEffect(() =>  {
-        axiosInstance.get(API_URL.concat("recipes/")).then(res => setRecipes(res.data));
+        axiosInstance.get(API_URL.concat('recipes/')).then(res => setRecipes(res.data));
         axiosInstance.get(API_URL.concat('ingredients/')).then(res => setIngredients(res.data));
     }, []);
 
@@ -64,7 +63,6 @@ export default function Page () {
             params: {
                 ingredients: searchParams,
                 exclude: excludeParams
-
             },
             paramsSerializer: params => {
                 return qs.stringify(params, {arrayFormat: 'repeat'})
@@ -116,7 +114,16 @@ export default function Page () {
     };
 
     const resetState = () => {
-        axiosInstance.get(API_URL.concat("recipes/")).then(res => setRecipes(res.data));
+        axiosInstance.get(API_URL.concat("recipes/"), {
+            params: {
+                ingredients: searchParams,
+                exclude: excludeParams
+            },
+            paramsSerializer: params => {
+                return qs.stringify(params, {arrayFormat:'repeat'})
+            }
+        }).then(res => setRecipes(res.data));
+
         axiosInstance.get(API_URL.concat('ingredients/')).then(res => setIngredients(res.data));  
     };
 
