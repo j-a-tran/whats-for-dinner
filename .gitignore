@@ -3,6 +3,7 @@ dinner_project/node_modules
 dinner_project/frontend/node_modules
 dinner_project/recipes/__pycache__/
 dinner_project/recipes/migrations/
+dinner_project/__pycache__
 *.log
 *.pot
 *.pyc
