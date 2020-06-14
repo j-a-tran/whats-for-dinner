@@ -11,6 +11,5 @@ urlpatterns = [
     path('api/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token-refresh'),
     path('api/token/verify/', jwt_views.TokenVerifyView.as_view(), name='token-verify'),
     path('api/user/create/', views.create_user, name='user-create'),
-    path('api/token/blacklist/', views.logout_and_blacklist_token, name='blacklist'),
-    path('', TemplateView.as_view(template_name='index.html'))
+    path('api/token/blacklist/', views.logout_and_blacklist_token, name='blacklist')
 ]
