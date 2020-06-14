@@ -36,3 +36,5 @@ yarn-debug.log*
 yarn-error.log*
 
 package-lock.json
+dinner_project/dinner_project/__pycache__/settings.cpython-38.pyc
+dinner_project/dinner_project/__pycache__/wsgi.cpython-38.pyc
