@@ -3,3 +3,12 @@ dinner_project/node_modules
 dinner_project/frontend/node_modules
 dinner_project/recipes/__pycache__/
 dinner_project/recipes/migrations/
+*.log
+*.pot
+*.pyc
+.env
+.env.staging
+__pycache__/
+local_settings.py
+db.sqlite3
+node_modules
