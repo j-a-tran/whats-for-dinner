@@ -1,5 +1,6 @@
 import React from 'react';
-import { axiosInstance } from '../_auth/axiosConfig';
+import axios from 'axios';
+import { API_URL, axiosInstance } from '../_auth/axiosConfig';
 
 export const AuthContext = React.createContext({})
 
@@ -8,7 +9,7 @@ export default function Auth({ children }) {
     const [isAuthenticated, setIsAuthenticated] = React.useState(!!localStorage.getItem('refresh_token'));
 
     const login = (username, password) => {
-        return axiosInstance.post('/token/obtain/', {
+        return axios.post(API_URL + 'token/obtain/', {
                 username: username,
                 password: password
             })
@@ -22,7 +23,7 @@ export default function Auth({ children }) {
 
     const register = (username, password) => {
 
-        return axiosInstance.post('/user/create/', {
+        return axios.post(API_URL + 'user/create/', {
             username: username,
             password: password
           });

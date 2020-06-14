@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { AuthContext } from '../_auth/Auth';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -27,7 +28,9 @@ const useStyles = makeStyles((theme) => ({
 export default function Register() {
   const classes = useStyles();
 
-  const { register } = React.useContext(AuthContext);
+  const { register, login } = React.useContext(AuthContext);
+
+  let history = useHistory();
 
   const [userData, setUserData] = React.useState({
         username: '',
@@ -53,7 +56,15 @@ export default function Register() {
 
       register(userData.username, userData.password)
       .then(function (response) {
-        console.log(response);
+            console.log(response);
+
+            login(userData.username, userData.password)
+            .then(function(response) {
+              history.push('/');
+            })
+            .catch(function(error) {
+              console.log(error.response);
+            })
       })
       .catch(function (error) {
         console.log(error.response);

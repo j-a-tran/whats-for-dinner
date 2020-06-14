@@ -21,7 +21,7 @@ import { API_URL, axiosInstance } from '../_auth/axiosConfig';
 
 const useStyles = makeStyles((theme) => ({
     fab: {
-        position: 'absolute',
+        position: 'fixed',
         bottom: theme.spacing(3),
         right: theme.spacing(3),
         zIndex: 10
