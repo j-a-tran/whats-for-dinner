@@ -23,28 +23,31 @@ def recipes_list(request):
     print(request_data[0])
     user = request_data[0] ##extracts user from the tuple
 
-    if request.method == 'GET':
-        data = user.recipe_set.all()
+    try:
+        if request.method == 'GET':
+            data = user.recipe_set.all()
 
-        query = request.GET.getlist('ingredients')
-        exclusions = request.GET.getlist('exclude')
+            query = request.GET.getlist('ingredients')
+            exclusions = request.GET.getlist('exclude')
 
-        if query:
-        ##  data = Recipe.objects.filter(ingredients__in=query).distinct()
-            data = user.recipe_set.all().filter(ingredients__in=query).distinct()
+            if query:
+            ##  data = Recipe.objects.filter(ingredients__in=query).distinct()
+                data = user.recipe_set.all().filter(ingredients__in=query).distinct()
 
-        if exclusions:
-            data = data.exclude(ingredients__in=exclusions)
-            
-        serializer  = RecipeSerializer(data, context={'request': request}, many=True)
+            if exclusions:
+                data = data.exclude(ingredients__in=exclusions)
+                
+            serializer = RecipeSerializer(data, context={'request': request}, many=True)
 
-        return Response(serializer.data)
-    elif request.method == 'POST':
-        serializer = RecipeSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save(user=user)
-            return Response(status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.data)
+        elif request.method == 'POST':
+            serializer = RecipeSerializer(data=request.data)
+            if serializer.is_valid():
+                serializer.save(user=user)
+                return Response(status=status.HTTP_201_CREATED)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    except Exception as e:
+        print(e)
 
 @api_view(['GET','PUT', 'DELETE'])
 def recipes_detail(request, pk):
