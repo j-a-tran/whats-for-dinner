@@ -1,6 +1,6 @@
 # 'What's for Dinner?'
 
-Personal project to set up web app allowing users to add recipes and get randomized suggestions based on available ingredients. Django backend and React frontend.
+Web app allowing users to add recipes and get randomized suggestions based on available ingredients. Django backend and React frontend.
 
 ## Why this Project?
 
